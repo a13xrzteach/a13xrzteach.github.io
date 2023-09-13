@@ -1,5 +1,5 @@
 # a13xrzteach.github.io
-CsClub
+CS Club site: https://a13xrzteach.github.io
 
 ## Slide Cycling
 You can cycle through images at https://a13xrzteach.github.io/cycle.html.
