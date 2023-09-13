@@ -1,1 +1,44 @@
-<h1>Hello ?</h1>
+<!-- Hey! No looking! -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link href="https://unpkg.com/sakura.css/css/sakura.css" rel="stylesheet">
+
+		<title>CS Club</title>
+	</head>
+	<body>
+		<h1 style="margin-top: 100px;">Welcome to the CS/Coding Club!</h1>
+		<p>Click <a href="#join" id="click">here</a> to join!</p>
+
+		<div id="real" style="display: none;">
+			<h3>If you actually want to join...</h3>
+			<p>Come to Room 203 at Period 3 on a Thursday, which is when club
+			meetings are running!</p>
+			<p>Then, we can invite you to the Google Classroom and unofficial
+			Discord.</p>
+		</div>
+
+		<audio id="audio">
+			<source src="static/pickle.mp3">
+		</audio>
+
+		<script>
+			const clicked = false
+			const click = document.getElementById("click")
+			const audio = document.getElementById("audio")
+			const real = document.getElementById("real")
+
+			click.addEventListener("click", () => {
+				if (clicked)
+					return
+
+				real.style.display = "block"
+				audio.play()
+
+				clicked = true
+			})
+		</script>
+	</body>
+</html>
