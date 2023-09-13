@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link href="https://unpkg.com/sakura.css/css/sakura.css" rel="stylesheet">
+
+		<title>Slide Cycle</title>
+
+		<style>
+			p {
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<p>Current date: <span id="date"></span></p>
+
+		<script>
+			document.getElementById("date").innerHTML = new Date()
+
+			setTimeout(() => {
+				location.reload()
+			}, 1000)
+		</script>
+	</body>
+</html>
