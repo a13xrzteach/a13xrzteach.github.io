@@ -15,4 +15,4 @@ const cycleImages = [
 ]
 
 // How long each image should be shown (milliseconds)
-const imgDuration = 1000
+const imgDuration = 2500
