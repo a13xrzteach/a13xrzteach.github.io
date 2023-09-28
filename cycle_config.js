@@ -5,7 +5,7 @@ Also, make sure they are using the same aspect ratio as your monitor
 if you want them to look right.
 */
 const cycleImages = [
-	"qr-1git.png",
+	"qr-git-sg-1.png",
 	"sg-1.png",
 	"sg-2.png",
 	"sg-3.png",
