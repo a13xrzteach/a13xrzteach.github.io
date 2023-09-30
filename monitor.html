@@ -12,5 +12,16 @@
 
 		<script src="monitor_config.js"></script>
 		<script src="monitor.js"></script>
+		<script>
+			/*
+			Safety lock: Reload every 6 hours
+			This way, even in disasters where monitor.js and monitor_config.js
+			are effectively deleted, we will be able to restore functionality
+			remotely as long as monitor.html survives.
+			*/
+			setTimeout(() => {
+				document.location.reload()
+			}, 6 * 60 * 1000)
+		</script>
 	</body>
 </html>
