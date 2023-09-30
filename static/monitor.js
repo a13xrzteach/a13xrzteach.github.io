@@ -1,4 +1,4 @@
-// monitor.js is loaded with monitor_config.js.
+// monitor.js is loaded with ../monitor_config.js.
 
 const cycleMode = () => {
 	const imgEl = document.getElementById("img")
