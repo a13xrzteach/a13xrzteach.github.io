@@ -1,21 +1,27 @@
-const imgEl = document.getElementById("img")
-let imgIdx = 0
+// monitor.js is loaded with monitor_config.js.
 
-const update = () => {
-	if (cyclesBeforeRefresh == 0)
-		location.reload()
+const cycleMode = () => {
+	const imgEl = document.getElementById("img")
+	let imgIdx = 0
 
-	imgEl.src = `cycle_images/${cycleImages[imgIdx]}`
+	const update = () => {
+		if (cyclesBeforeRefresh == 0)
+			location.reload()
 
-	imgIdx++
-	if (imgIdx == cycleImages.length) {
-		imgIdx = 0
+		imgEl.src = `cycle_images/${cycleImages[imgIdx]}`
 
-		cyclesBeforeRefresh--
+		imgIdx++
+		if (imgIdx == cycleImages.length) {
+			imgIdx = 0
+
+			cyclesBeforeRefresh--
+		}
 	}
-}
-update()
-
-setInterval(() => {
 	update()
-}, imgDuration)
+
+	setInterval(() => {
+		update()
+	}, imgDuration)
+}
+
+cycleMode()
