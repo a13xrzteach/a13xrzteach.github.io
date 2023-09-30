@@ -12,14 +12,14 @@ The options are...
 "cycle": cycling through images
 "youtube": playing a YouTube video/stream
 */
-const mode = "cycle"
+const mode = "youtube"
 
 /*
 ytID sets the YouTube embed ID to play, both for videos and livestreams. For
 example, if you wanted to play https://www.youtube.com/watch?v=iY9KPkrgyhQ, ytID
 should be the string "iY9KPkrgyhQ".
 */
-const ytID = "3BBzz0ADBAw"
+const ytID = "vEkbTL8u3fM"
 
 /*
 ytReload sets how often the page should be reloaded, if you are on youtube mode.
@@ -27,7 +27,7 @@ Every time the monitor page reloads, it will use the new monitor_config.js, so
 it's necessary to have it reload somewhat frequently to make the monitor
 convenient to update remotely. This nubmer is in milliseconds.
 */
-const ytReload = 60 * 1000
+const ytReload = (4 * 60 + 40) * 1000
 
 /*
 cycleImages sets the list of images to go through, which will be shown if you
