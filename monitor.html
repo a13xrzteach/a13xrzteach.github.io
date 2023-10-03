@@ -21,14 +21,18 @@
 		<script src="static/monitor.js"></script>
 		<script>
 			/*
-			Safety lock: Reload every 6 hours
+			Safety lock: Reload 1 hour after page load
 			This way, even in disasters where monitor.js and monitor_config.js
 			are effectively deleted, we will be able to restore functionality
-			remotely as long as monitor.html survives.
+			remotely as long as monitor.html survives. This should not conflict
+			with monitor_config, because even for livestreams and videos that
+			are hours long, the reload time should be short. Each time a natural
+			(intended) reload happens, the safety lock timer would be reset back
+			to the 1 hour.
 			*/
 			setTimeout(() => {
 				window.location.reload()
-			}, 6 * 60 * 1000)
+			}, 60 * 1000)
 		</script>
 	</body>
 </html>
