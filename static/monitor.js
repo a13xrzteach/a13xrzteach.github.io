@@ -32,7 +32,7 @@ const ytMode = () => {
 	iframe.src = `https://www.youtube.com/embed/${ytID}?playlist=${ytID}&autoplay=1&mute=1&loop=1&controls=0`
 
 	setTimeout(() => {
-		document.location.reload()
+		window.location.reload()
 	}, ytReload)
 }
 
