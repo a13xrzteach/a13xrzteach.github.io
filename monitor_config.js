@@ -25,7 +25,11 @@ const ytID = "yY4izYfI7g0"
 ytReload sets how often the page should be reloaded, if you are on youtube mode.
 Every time the monitor page reloads, it will use the new monitor_config.js, so
 it's necessary to have it reload somewhat frequently to make the monitor
-convenient to update remotely. This nubmer is in milliseconds.
+convenient to update remotely. This should generally just be left at five
+minutes instead of trying to adapt it to the length of your video. Videos longer
+than ytReload will work fine, since the reload will remember your placement in
+the video. Also, videos loop, so you could see multiple cycles if your duration
+is shorter than ytReload. This number is in milliseconds.
 */
 const ytReload = 5 * 60 * 1000
 
