@@ -25,10 +25,13 @@ const cycleMode = () => {
 }
 
 let player
+const params = new URLSearchParams(window.location.search)
+
 function onYouTubePlayerAPIReady() {
 	player = new YT.Player("yt-player", {
 		videoId: ytID,
 		playerVars: {
+			start: params.get("time") || 0,
 			autoplay: 1,
 
 			// The video has to be explicitly muted for autoplaying to work
@@ -48,8 +51,14 @@ function onYouTubePlayerAPIReady() {
 
 const onPlayerReady = () => {
 	setTimeout(() => {
-		window.location.reload()
-	}, ytReload)
+		params.set("time", Math.floor(player.getCurrentTime()))
+		const url = new URL(window.location.href)
+		url.search = params.toString()
+		window.location.href = url.toString()
+
+	// Add a second of delay because the YouTube frame takes a second or so to
+	// load initially
+	}, ytReload + 1000)
 }
 
 // Initiate the iframe player API, which gets picked up on
