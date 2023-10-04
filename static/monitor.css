@@ -11,7 +11,7 @@ body, html {
     background-color: black;
 }
 
-img, iframe {
+img, div#yt-player iframe {
 	display: block;
 	max-width: 100vw; /* max width of viewport width */
 	max-height: 100vh; /* max height of viewport height */
