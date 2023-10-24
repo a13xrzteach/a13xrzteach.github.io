@@ -74,7 +74,6 @@ const cycleImages = [
 	"SWMSS Business 2022-2023_page-0032.jpg",
 	"SWMSS Business 2022-2023_page-0033.jpg",
 	"SWMSS Business 2022-2023_page-0034.jpg",
-	
 ]
 
 /*
