@@ -10,6 +10,7 @@ body {
 	display: grid;
 	grid-template-columns: 80% auto;
 	column-gap: 1%;
+	font-family: sans-serif;
 }
 
 #iframe {
@@ -17,9 +18,25 @@ body {
 	height: 100%;
 }
 
+nav div {
+	background-color: #eee;
+	padding: 5%;
+}
+
+nav div#meta {
+	margin-bottom: 10%;
+}
+
+nav div#meta li {
+	margin-top: 5%;
+}
+
 nav {
 	margin-top: 5%;
 	display: grid;
+	row-gap: 5%;
+	overflow: scroll;
+	padding-bottom: 5%;
 }
 
 nav h3 {
@@ -33,4 +50,5 @@ nav hr {
 
 nav button {
 	font-size: 3em;
+	margin-top: 5%;
 }
