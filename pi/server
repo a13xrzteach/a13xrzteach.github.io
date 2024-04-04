@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Update https://github.com/a13xrzteach/a13xrzteach.github.io/blob/main/pi/endpoint
+port=17860
+
+cd ..
+darkhttpd . --port $port

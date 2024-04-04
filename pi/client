@@ -1,0 +1,25 @@
+#!/bin/sh
+
+reload=120
+
+while :
+do
+	echo "pi client: Refreshing"
+	git pull
+
+	# --guest: Open guest window (no history when closing/opening)
+	# --start-fullscreen
+	# Alternative: --window-position and --window-size
+	# --kiosk: Do not show ~"press f11 to exit fullscreen" dialog
+	# Full list: https://peter.sh/experiments/chromium-command-line-switches/
+
+	endpoint=$(cat ./endpoint)
+	killall chromium
+	chromium \
+		--guest \
+		--start-fullscreen \
+		--kiosk \
+		"$endpoint" &
+
+	sleep "$reload"
+done
