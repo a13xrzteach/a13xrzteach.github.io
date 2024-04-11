@@ -19,7 +19,7 @@ ytID sets the YouTube embed ID to play, both for videos and livestreams. For
 example, if you wanted to play https://www.youtube.com/watch?v=iY9KPkrgyhQ, ytID
 should be the string "iY9KPkrgyhQ".
 */
-const ytID = "QUoUwWfkxr0"
+const ytID = "iY9KPkrgyhQ"
 
 /*
 ytReload sets how often the page should be reloaded, if you are on youtube mode.

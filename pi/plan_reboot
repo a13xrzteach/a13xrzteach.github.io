@@ -1,10 +1,8 @@
 #!/bin/sh
 
-sleep 60
+offset=$(seq 1 2000 | shuf | head -1)
+time=$((60 * 60 * 6 + $offset))
 
-# offset=$(seq 1 2000 | shuf | head -1)
-# time=$((60 * 60 * 12 + $offset))
-
-# sleep "$time"
+sleep "$time"
 
 reboot
