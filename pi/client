@@ -1,6 +1,6 @@
 #!/bin/sh
 
-endpoint="http://10.242.207.207:17860/"
+endpoint="http://10.242.207.207:17860/monitor.html"
 
 killall chromium
 
@@ -14,7 +14,6 @@ killall chromium
 
 # Full list: https://peter.sh/experiments/chromium-command-line-switches/
 
-endpoint=$(cat ./endpoint)
 chromium \
 	--guest \
 	--kiosk \
