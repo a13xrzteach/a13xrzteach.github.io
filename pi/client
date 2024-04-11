@@ -1,6 +1,6 @@
 #!/bin/sh
 
-reload=120
+reload=10
 
 while :
 do
@@ -8,17 +8,19 @@ do
 	git pull
 
 	# --guest: Open guest window (no history when closing/opening)
-	# --start-fullscreen
 	# Alternative: --window-position and --window-size
-	# --kiosk: Do not show ~"press f11 to exit fullscreen" dialog
+
+	# --kiosk: Start in fullscreen and do not show ~"press f11 to exit
+	# fullscreen" dialog
+
 	# --force-device-scale-factor: UI zoom
+
 	# Full list: https://peter.sh/experiments/chromium-command-line-switches/
 
 	endpoint=$(cat ./endpoint)
 	killall chromium
 	chromium \
 		--guest \
-		--start-fullscreen \
 		--kiosk \
 		--force-device-scale-factor=1.3 \
 		"$endpoint" &
