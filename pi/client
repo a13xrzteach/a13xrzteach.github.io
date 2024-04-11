@@ -1,29 +1,22 @@
 #!/bin/sh
 
-reload=10
+endpoint="http://10.242.207.207:17860/"
 
-while :
-do
-	echo "pi client: Refreshing"
-	git pull
+killall chromium
 
-	# --guest: Open guest window (no history when closing/opening)
-	# Alternative: --window-position and --window-size
+# --guest: Open guest window (no history when closing/opening)
+# Alternative: --window-position and --window-size
 
-	# --kiosk: Start in fullscreen and do not show ~"press f11 to exit
-	# fullscreen" dialog
+# --kiosk: Start in fullscreen and do not show ~"press f11 to exit
+# fullscreen" dialog
 
-	# --force-device-scale-factor: UI zoom
+# --force-device-scale-factor: UI zoom
 
-	# Full list: https://peter.sh/experiments/chromium-command-line-switches/
+# Full list: https://peter.sh/experiments/chromium-command-line-switches/
 
-	endpoint=$(cat ./endpoint)
-	killall chromium
-	chromium \
-		--guest \
-		--kiosk \
-		--force-device-scale-factor=1.3 \
-		"$endpoint" &
-
-	sleep "$reload"
-done
+endpoint=$(cat ./endpoint)
+chromium \
+	--guest \
+	--kiosk \
+	--force-device-scale-factor=1.3 \
+	"$endpoint" &

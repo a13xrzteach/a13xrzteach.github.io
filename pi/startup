@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Be very careful about updating this startup script. If it changes while a
+# monitor is running it, it could malfunction and get stuck in an infinite loop,
+# requiring manual intervention.
+
+echo "startup: pulling"
+
+git pull
+
+echo "startup: planning reboot"
+
+reboot="$(mktemp -u).$(date +%s)"
+cp ./plan_reboot "$reboot"
+"$reboot" &
+
+sleep 2
+
+echo "startup: starting manager"
+
+manager="$(mktemp -u).$(date +%s)"
+cp ./client_manager "$manager"
+"$manager"
+
+echo "startup: manager failed"
+
+# Manager exited early for some reason (error)
+# It's fine if this is just run directly
+./plan_reboot
+
+echo "startup: planned reboot failed"
+
+fail="https://www.google.com/finance/quote/NVDA:NASDAQ"
+chromium --guest "$fail" &
+
+# plan_reboot also exited instead of rebooting
+sleep 180
+
+killall chromium
+reboot
+
+sleep 180
+
+# Last effort: restart (because clearly rebooting doesn't work)
+./startup
