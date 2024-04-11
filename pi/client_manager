@@ -1,10 +1,9 @@
 #!/bin/sh
-
 reload=120
 
 while :
 do
-	echo "pi client: Refreshing"
+	echo "pi client_manager: Refreshing"
 	git pull
 	./client
 

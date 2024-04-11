@@ -1,5 +1,17 @@
 #!/bin/sh
 
+if echo "$0" | grep -q "^/"
+then
+	dir=${0%/*}
+	echo "startup: cd $dir"
+	cd "$dir"
+fi
+
+./client_manager
+
+# Testing
+exit
+
 # Be very careful about updating this startup script. If it changes while a
 # monitor is running it, it could malfunction and get stuck in an infinite loop,
 # requiring manual intervention.
