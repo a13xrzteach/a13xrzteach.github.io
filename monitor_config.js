@@ -12,14 +12,14 @@ The options are...
 "cycle": cycling through images
 "youtube": playing a YouTube video/stream
 */
-const mode = "cycle"
+const mode = "youtube"
 
 /*
 ytID sets the YouTube embed ID to play, both for videos and livestreams. For
 example, if you wanted to play https://www.youtube.com/watch?v=iY9KPkrgyhQ, ytID
 should be the string "iY9KPkrgyhQ".
 */
-const ytID = "yY4izYfI7g0"
+const ytID = "QUoUwWfkxr0"
 
 /*
 ytReload sets how often the page should be reloaded, if you are on youtube mode.

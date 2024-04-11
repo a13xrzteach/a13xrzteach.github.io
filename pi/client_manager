@@ -1,6 +1,6 @@
 #!/bin/sh
 
-reload=10
+reload=120
 
 while :
 do
