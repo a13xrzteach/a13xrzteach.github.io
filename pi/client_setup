@@ -1,0 +1,52 @@
+#!/bin/sh -e
+# See https://github.com/a13xrzteach/a13xrzteach.github.io/tree/main/pi
+
+# Uncomment to enable logging
+# debug=1
+
+log() {
+	[ "$debug" ] || return
+
+	echo "About to execute: $1"
+	echo "PWD: $PWD"
+	sleep 5
+}
+
+log "sudo apt update"
+sudo apt update
+
+log "sudo apt upgrade"
+sudo apt upgrade
+
+log "sudo apt install git chromium kakoune"
+sudo apt install git chromium kakoune
+
+log "mkdir ~/src"
+mkdir ~/src
+
+log "cd ~/src"
+cd ~/src
+
+log "git clone https://github.com/a13xrzteach/a13xrzteach.github.io/"
+git clone https://github.com/a13xrzteach/a13xrzteach.github.io/
+
+log "git config --global pull.rebase false"
+git config --global pull.rebase false
+
+log "cp a13xrzteach.github.io/pi/startup.desktop ~"
+cp a13xrzteach.github.io/pi/startup.desktop ~
+
+log "mkdir ~/.config/autostart"
+mkdir ~/.config/autostart
+
+log "cd ~/.config/autostart"
+cd ~/.config/autostart
+
+log "mv ~/startup.desktop ."
+mv ~/startup.desktop .
+
+log "sed -i \"s/USER/$(whoami)/g\" ./startup.desktop"
+sed -i "s/USER/$(whoami)/g" ./startup.desktop
+
+log "reboot"
+reboot
