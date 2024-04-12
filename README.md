@@ -23,3 +23,10 @@ Then, modify ``cycleImages`` in the config.
 When updating anything, you'll have to wait for GitHub's servers to deploy the
 new site, and then for the next refresh that the monitor view makes. Under reasonable
 settings in monitor_config.js, this might take around five minutes.
+
+## Raspberry Pis
+Instead of using GitHub pages, you can connect to the local server (Arch Linux
+desktop in room 203). This is highly recommended if you're using a device that
+you will lack physical access to after deploying, such as one of the Raspberry
+Pis connected to the TV monitors. See
+[pi/README.md](https://github.com/a13xrzteach/a13xrzteach.github.io/blob/main/pi/README.md).
