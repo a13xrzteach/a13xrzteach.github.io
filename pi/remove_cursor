@@ -1,0 +1,30 @@
+#!/bin/sh
+
+src=$HOME/src
+build=$HOME/src/ydotool/build
+
+if [ ! -d "$build" ]
+then
+	sudo apt install -y cmake scdoc
+
+	cd "$src"
+	git clone https://github.com/ReimuNotMoe/ydotool
+	cd ydotool
+
+	mkdir "$build"
+	cd "$build"
+
+	cmake ..
+	make -j $(nproc)
+fi
+
+cd "$build"
+
+sudo ./ydotoold &
+
+# For ydotoold to start up properly
+sleep 10
+
+# Use --absolute for absolute
+# But this should work too
+sudo ./ydotool mousemove 1920 1080

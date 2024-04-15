@@ -1,5 +1,7 @@
 #!/bin/sh
 
+./remove_cursor &
+
 reload=$((60 * 60 * 3))
 
 while :
