@@ -24,7 +24,7 @@ But make sure you're using an HTTP server like
 python -m http.server
 All file:// requests will be blocked by the API by default.
 */
-const ytID = "Xwxw4VtL5vI"
+const ytID = "yY4izYfI7g0"
 
 /*
 ytReload sets how often the page should be reloaded, if you are on youtube mode.
