@@ -17,9 +17,14 @@ const mode = "youtube"
 /*
 ytID sets the YouTube embed ID to play, both for videos and livestreams. For
 example, if you wanted to play https://www.youtube.com/watch?v=iY9KPkrgyhQ, ytID
-should be the string "iY9KPkrgyhQ".
+should be the string "iY9KPkrgyhQ". Some videos are blocked even if they don't
+show any blocks inside YouTube Studio, though. Test them out in a private window
+locally first to check.
+But make sure you're using an HTTP server like
+python -m http.server
+All file:// requests will be blocked by the API by default.
 */
-const ytID = "EpIRCPnhpqQ"
+const ytID = "Xwxw4VtL5vI"
 
 /*
 ytReload sets how often the page should be reloaded, if you are on youtube mode.
