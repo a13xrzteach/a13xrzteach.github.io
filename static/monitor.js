@@ -44,7 +44,8 @@ function onYouTubePlayerAPIReady() {
 			playlist: ytID,
 		},
 		events: {
-			"onReady": onPlayerReady
+			"onReady": onPlayerReady,
+			"onError": onError
 		}
 	})
 }
@@ -59,6 +60,13 @@ const onPlayerReady = () => {
 	// Add a second of delay because the YouTube frame takes a second or so to
 	// load initially
 	}, ytReload + 1000)
+}
+
+
+// https://developers.google.com/youtube/iframe_api_reference#onError
+const onError = event => {
+	console.log("Received error from YouTube API")
+	console.log(event)
 }
 
 // Initiate the iframe player API, which gets picked up on
