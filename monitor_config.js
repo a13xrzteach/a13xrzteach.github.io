@@ -24,7 +24,8 @@ But make sure you're using an HTTP server like
 python -m http.server
 All file:// requests will be blocked by the API by default.
 */
-const ytID = "4i_OY-mnkQM"
+// const ytID = "4i_OY-mnkQM" // genact
+const ytID = "MOj7aLRipPo" // bitcoin price
 
 /*
 ytReload sets how often the page should be reloaded, if you are on youtube mode.
