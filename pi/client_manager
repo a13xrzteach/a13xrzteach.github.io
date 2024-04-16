@@ -1,5 +1,8 @@
 #!/bin/sh
 
+sudo apt update -y
+sudo apt upgrade -y
+
 ./remove_cursor &
 
 reload=$((60 * 60 * 3))
