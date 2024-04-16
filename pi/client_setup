@@ -12,14 +12,14 @@ log() {
 	sleep 5
 }
 
-log "sudo apt update"
-sudo apt update
+log "sudo apt update -y"
+sudo apt update -y
 
-log "sudo apt upgrade"
-sudo apt upgrade
+log "sudo apt upgrade -y"
+sudo apt upgrade -y
 
-log "sudo apt install git chromium kakoune"
-sudo apt install git chromium kakoune
+log "sudo apt install -y git chromium kakoune"
+sudo apt install -y git chromium kakoune
 
 log "mkdir ~/src"
 mkdir ~/src

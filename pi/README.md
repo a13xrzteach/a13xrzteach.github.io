@@ -37,7 +37,7 @@ upstream changes that you wish to be served.
 I uploaded ``client_setup`` onto ``0x0.st``. Reupload and modify this README
 accordingly if necessary.
 ```sh
-curl 0x0.st/X-QK.sh | sh
+curl 0x0.st/X-hN.sh | sh
 ```
 
 Attempt 1: After rebooting, Chromium seemed to open but then close instantly. I
