@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Make sure the screen has initialized itself properly before we move
+sleep 120
+
 src=$HOME/src
 build=$HOME/src/ydotool/build
 
