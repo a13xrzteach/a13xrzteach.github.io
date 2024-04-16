@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# Also be careful about modifying this. A boot loop that doesn't have time to
+# git pull could be fatal. Not rebooting at all could be fatal.
+
+sleep 120
+
 offset=$(seq 1 2000 | shuf | head -1)
 time=$((60 * 60 * 6 + $offset))
 
