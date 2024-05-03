@@ -8,7 +8,7 @@ const cycleMode = () => {
 		if (cyclesBeforeRefresh == 0)
 			location.reload()
 
-		imgEl.src = `cycle_images/${cycleImages[imgIdx]}`
+		imgEl.src = `static/img/monitor/${cycleImages[imgIdx]}`
 
 		imgIdx++
 		if (imgIdx == cycleImages.length) {
