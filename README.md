@@ -4,7 +4,7 @@ CS Club site: https://a13xrzteach.github.io
 The monitor view is located at https://a13xrzteach.github.io/monitor.html.
 
 To modify settings, edit the
-[monitor_config.js](https://github.com/a13xrzteach/a13xrzteach.github.io/blob/main/monitor_config.js)
+[config/monitor.js](https://github.com/a13xrzteach/a13xrzteach.github.io/blob/main/config/monitor.js)
 file ("the config").
 
 ## YouTube video / stream view
@@ -16,13 +16,13 @@ what video/stream you want to play.
 To enable cycling through images, set ``mode`` to "cycle" in the config.
 
 To modify the cycle, add your images to the
-[cycle_images/ folder](https://github.com/a13xrzteach/a13xrzteach.github.io/tree/main/cycle_images).
+[static/img/monitor/ folder](https://github.com/a13xrzteach/a13xrzteach.github.io/tree/main/static/img/monitor).
 Then, modify ``cycleImages`` in the config.
 
 ## Update Delay
 When updating anything, you'll have to wait for GitHub's servers to deploy the
-new site, and then for the next refresh that the monitor view makes. Under reasonable
-settings in monitor_config.js, this might take around five minutes.
+new site, and then for the next refresh that the monitor view makes. Under
+reasonable settings in config/monitor.js, this might take around five minutes.
 
 ## Raspberry Pis
 Instead of using GitHub pages, you can connect to the local server (Arch Linux

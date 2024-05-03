@@ -1,3 +1,5 @@
+const config = {}
+
 /*
 Note:
 - All strings are case-sensitive.
@@ -12,7 +14,8 @@ The options are...
 "cycle": cycling through images
 "youtube": playing a YouTube video/stream
 */
-const mode = "cycle"
+// const mode = "cycle"
+const mode = "youtube"
 
 /*
 ytID sets the YouTube embed ID to play, both for videos and livestreams. For
@@ -24,8 +27,8 @@ But make sure you're using an HTTP server like
 python -m http.server
 All file:// requests will be blocked by the API by default.
 */
-// const ytID = "4i_OY-mnkQM" // genact
-const ytID = "MOj7aLRipPo" // bitcoin price
+const ytID = "4i_OY-mnkQM" // genact
+// const ytID = "MOj7aLRipPo" // bitcoin price
 
 /*
 ytReload sets how often the page should be reloaded, if you are on youtube mode.
