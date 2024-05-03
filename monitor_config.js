@@ -12,7 +12,7 @@ The options are...
 "cycle": cycling through images
 "youtube": playing a YouTube video/stream
 */
-const mode = "youtube"
+const mode = "cycle"
 
 /*
 ytID sets the YouTube embed ID to play, both for videos and livestreams. For
@@ -47,39 +47,40 @@ you want them to look right.
 */
 const cycleImages = [
 	"qr-git-sg-1.png",
-	"SWMSS Business 2022-2023_page-0001.jpg",
-	"SWMSS Business 2022-2023_page-0002.jpg",
-	"SWMSS Business 2022-2023_page-0003.jpg",
-	"SWMSS Business 2022-2023_page-0004.jpg",
-	"SWMSS Business 2022-2023_page-0005.jpg",
-	"SWMSS Business 2022-2023_page-0006.jpg",
-	"SWMSS Business 2022-2023_page-0007.jpg",
-	"SWMSS Business 2022-2023_page-0008.jpg",
-	"SWMSS Business 2022-2023_page-0009.jpg",
-	"SWMSS Business 2022-2023_page-0010.jpg",
-	"SWMSS Business 2022-2023_page-0011.jpg",
-	"SWMSS Business 2022-2023_page-0012.jpg",
-	"SWMSS Business 2022-2023_page-0013.jpg",
-	"SWMSS Business 2022-2023_page-0015.jpg",
-	"SWMSS Business 2022-2023_page-0016.jpg",
-	"SWMSS Business 2022-2023_page-0017.jpg",
-	"SWMSS Business 2022-2023_page-0018.jpg",
-	"SWMSS Business 2022-2023_page-0019.jpg",
-	"SWMSS Business 2022-2023_page-0020.jpg",
-	"SWMSS Business 2022-2023_page-0021.jpg",
-	"SWMSS Business 2022-2023_page-0022.jpg",
-	"SWMSS Business 2022-2023_page-0023.jpg",
-	"SWMSS Business 2022-2023_page-0024.jpg",
-	"SWMSS Business 2022-2023_page-0025.jpg",
-	"SWMSS Business 2022-2023_page-0026.jpg",
-	"SWMSS Business 2022-2023_page-0027.jpg",
-	"SWMSS Business 2022-2023_page-0028.jpg",
-	"SWMSS Business 2022-2023_page-0029.jpg",
-	"SWMSS Business 2022-2023_page-0030.jpg",
-	"SWMSS Business 2022-2023_page-0031.jpg",
-	"SWMSS Business 2022-2023_page-0032.jpg",
-	"SWMSS Business 2022-2023_page-0033.jpg",
-	"SWMSS Business 2022-2023_page-0034.jpg",
+	"color0524.png"
+	// "SWMSS Business 2022-2023_page-0001.jpg",
+	// "SWMSS Business 2022-2023_page-0002.jpg",
+	// "SWMSS Business 2022-2023_page-0003.jpg",
+	// "SWMSS Business 2022-2023_page-0004.jpg",
+	// "SWMSS Business 2022-2023_page-0005.jpg",
+	// "SWMSS Business 2022-2023_page-0006.jpg",
+	// "SWMSS Business 2022-2023_page-0007.jpg",
+	// "SWMSS Business 2022-2023_page-0008.jpg",
+	// "SWMSS Business 2022-2023_page-0009.jpg",
+	// "SWMSS Business 2022-2023_page-0010.jpg",
+	// "SWMSS Business 2022-2023_page-0011.jpg",
+	// "SWMSS Business 2022-2023_page-0012.jpg",
+	// "SWMSS Business 2022-2023_page-0013.jpg",
+	// "SWMSS Business 2022-2023_page-0015.jpg",
+	// "SWMSS Business 2022-2023_page-0016.jpg",
+	// "SWMSS Business 2022-2023_page-0017.jpg",
+	// "SWMSS Business 2022-2023_page-0018.jpg",
+	// "SWMSS Business 2022-2023_page-0019.jpg",
+	// "SWMSS Business 2022-2023_page-0020.jpg",
+	// "SWMSS Business 2022-2023_page-0021.jpg",
+	// "SWMSS Business 2022-2023_page-0022.jpg",
+	// "SWMSS Business 2022-2023_page-0023.jpg",
+	// "SWMSS Business 2022-2023_page-0024.jpg",
+	// "SWMSS Business 2022-2023_page-0025.jpg",
+	// "SWMSS Business 2022-2023_page-0026.jpg",
+	// "SWMSS Business 2022-2023_page-0027.jpg",
+	// "SWMSS Business 2022-2023_page-0028.jpg",
+	// "SWMSS Business 2022-2023_page-0029.jpg",
+	// "SWMSS Business 2022-2023_page-0030.jpg",
+	// "SWMSS Business 2022-2023_page-0031.jpg",
+	// "SWMSS Business 2022-2023_page-0032.jpg",
+	// "SWMSS Business 2022-2023_page-0033.jpg",
+	// "SWMSS Business 2022-2023_page-0034.jpg",
 ]
 
 /*
