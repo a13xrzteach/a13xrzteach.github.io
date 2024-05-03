@@ -87,7 +87,7 @@ const cycleImages = [
 imgDuration sets how long each image in cycle mode should be shown, in
 milliseconds.
 */
-const imgDuration = 2500
+const imgDuration = 6000
 
 /*
 cyclesBeforeRefresh sets how many cycles of cycleImages should be shown before
