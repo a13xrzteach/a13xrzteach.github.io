@@ -1,6 +1,7 @@
 #!/bin/sh
 
-endpoint="http://10.242.207.207:17860/monitor.html"
+# Configured (../monitor.py) to serve monitor on root /
+endpoint="http://10.242.207.207:17860/"
 
 killall chromium
 

@@ -3,7 +3,8 @@
 - Standard Linux installation
 - ``git``
 - ``jq``
-- ``darkhttpd``
+- ``uvicorn``
+- ``python-fastapi``
 - ``kakoune`` for text editing (optional)
 
 ## Startup

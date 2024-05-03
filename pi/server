@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 log() {
 	echo "pi server: $1"
 }
@@ -19,4 +20,4 @@ log "Serving $PWD on port $port"
 log "Private IP address: $(ip -j route get 1.2.3.4 | jq -r -M '.[0].prefsrc')"
 echo
 
-darkhttpd . --port $port
+uvicorn monitor:app --reload --port $port
