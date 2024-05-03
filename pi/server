@@ -5,11 +5,11 @@ log() {
 	echo "pi server: $1"
 }
 
-if ! ping -c 1 google.com > /dev/null
-then
-	log "No internet"
-	exit 1
-fi
+# if ! ping -c 1 google.com > /dev/null
+# then
+# 	log "No internet"
+# 	exit 1
+# fi
 
 # Update https://github.com/a13xrzteach/a13xrzteach.github.io/blob/main/pi/endpoint
 port=17860
@@ -20,4 +20,4 @@ log "Serving $PWD on port $port"
 log "Private IP address: $(ip -j route get 1.2.3.4 | jq -r -M '.[0].prefsrc')"
 echo
 
-uvicorn monitor:app --reload --port $port
+uvicorn monitor:app --reload --host 0.0.0.0 --port $port
