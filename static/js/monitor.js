@@ -1,31 +1,34 @@
-// monitor.js is loaded with ../monitor_config.js.
+// monitor.js is loaded with config/monitor.js.
+
+// Stored in seconds for consistency with image_cycle's image_duration
+const reloadInterval = 5 * 60;
 
 const cycleMode = () => {
-	const imgEl = document.getElementById("img")
-	let imgIdx = 0
+	const imgEl = document.getElementById("img");
+	let imgIdx = 0;
 
 	const update = () => {
 		if (cyclesBeforeRefresh == 0)
-			location.reload()
+			location.reload();
 
-		imgEl.src = `static/img/monitor/${cycleImages[imgIdx]}`
+		imgEl.src = `static/img/monitor/${cycleImages[imgIdx]}`;
 
-		imgIdx++
+		imgIdx++;
 		if (imgIdx == cycleImages.length) {
-			imgIdx = 0
+			imgIdx = 0;
 
-			cyclesBeforeRefresh--
+			cyclesBeforeRefresh--;
 		}
 	}
-	update()
+	update();
 
 	setInterval(() => {
-		update()
-	}, imgDuration)
-}
+		update();
+	}, imgDuration);
+};
 
-let player
-const params = new URLSearchParams(window.location.search)
+let player;
+const params = new URLSearchParams(window.location.search);
 
 function onYouTubePlayerAPIReady() {
 	player = new YT.Player("yt-player", {
@@ -46,38 +49,38 @@ function onYouTubePlayerAPIReady() {
 		events: {
 			"onReady": onPlayerReady,
 			"onError": onError
-		}
-	})
+		},
+	});
 }
 
 const onPlayerReady = () => {
 	setTimeout(() => {
-		params.set("time", Math.floor(player.getCurrentTime()))
-		const url = new URL(window.location.href)
-		url.search = params.toString()
-		window.location.href = url.toString()
+		params.set("time", Math.floor(player.getCurrentTime()));
+		const url = new URL(window.location.href);
+		url.search = params.toString();
+		window.location.href = url.toString();
 
 	// Add a second of delay because the YouTube frame takes a second or so to
 	// load initially
-	}, ytReload + 1000)
-}
+	}, ytReload + 1000);
+};
 
 
 // https://developers.google.com/youtube/iframe_api_reference#onError
 const onError = event => {
-	console.log("Received error from YouTube API")
-	console.log(event)
-}
+	console.log("Received error from YouTube API");
+	console.log(event);
+};
 
 // Initiate the iframe player API, which gets picked up on
 // onYouTubePlayerAPIReady
 const ytMode = () => {
-	const script = document.createElement("script")
-	script.src = "https://www.youtube.com/player_api"
-	document.body.appendChild(script)
-}
+	const script = document.createElement("script");
+	script.src = "https://www.youtube.com/player_api";
+	document.body.appendChild(script);
+};
 
 if (mode == "cycle")
-	cycleMode()
+	cycleMode();
 else if (mode == "youtube")
-	ytMode()
+	ytMode();
