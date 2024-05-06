@@ -4,31 +4,20 @@ Life is too short to understand how top: 50%
 interacts with transform: translateY(-50%)
 */
 
-body, html {
-	height: 100%;
+html, body {
+	padding: 0;
 	margin: 0;
-	overflow: hidden; /* ensure there's no scrollbar */
-    background-color: black;
+	height: 100%;
 }
 
-img, div#yt-player iframe {
-	display: block;
-	max-width: 100vw; /* max width of viewport width */
-	max-height: 100vh; /* max height of viewport height */
-	margin: 0 auto; /* for centering horizontally if there's extra horizontal space */
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%); /* for centering vertically */
-	left: 0;
-	right: 0; /* combined with left:0, it ensures horizontal centering */
+main {
+	height: 100%;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-content: center;
 }
 
 img {
-	width: auto;
-	height: auto;
-}
-
-iframe {
-	width: 100vw;
-	height: 100vh;
+	max-width: 100%;
 }
