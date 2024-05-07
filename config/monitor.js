@@ -13,6 +13,6 @@ const config = {
 			"qr-git-sg-1.png",
 			"color0524.png",
 		],
-		"image_duration": 7,
+		"image_duration": 7.5,
 	},
 };
