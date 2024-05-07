@@ -1,7 +1,7 @@
 const config = {
 	"main": {
 		"type": "youtube",
-		"video_id": "7P-fFif6D6c",
+		"video_id": "Y2F8yisiS6E",
 	},
 	"footer": {
 		"type": "youtube",
