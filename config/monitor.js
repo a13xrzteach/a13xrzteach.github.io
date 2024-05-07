@@ -1,23 +1,11 @@
 const config = {
 	"main": {
-		"type": "image_cycle",
-		"images": [
-			"qr-git-sg-1.png",
-			"color0524.png",
-		],
-		"image_duration": 1,
+		"type": "youtube",
+		"video_id": "7P-fFif6D6c",
 	},
 	"footer": {
-		"type": "image_cycle",
-		"images": [
-			"sg-1.png",
-			"sg-2.png",
-			"sg-3.png",
-			"sg-4.png",
-			"sg-5.png",
-			"sg-6.png",
-		],
-		"image_duration": 0.75,
+		"type": "youtube",
+		"video_id": "MOj7aLRipPo",
 	},
 	"sidebar": {
 		"type": "image_cycle",
@@ -25,6 +13,6 @@ const config = {
 			"qr-git-sg-1.png",
 			"color0524.png",
 		],
-		"image_duration": 1.25,
+		"image_duration": 7,
 	},
 };

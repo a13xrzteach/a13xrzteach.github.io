@@ -50,7 +50,7 @@ image should be shown for before transitioning to the next one.
 ```json
 {
 	"type": "youtube",
-	"ytID": "4i_OY-mnkQM",
+	"video_id": "4i_OY-mnkQM",
 }
 ```
 

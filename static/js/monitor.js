@@ -6,56 +6,6 @@ const reloadInterval = 5 * 60;
 let player;
 const params = new URLSearchParams(window.location.search);
 
-function onYouTubePlayerAPIReady() {
-	player = new YT.Player("yt-player", {
-		videoId: ytID,
-		playerVars: {
-			start: params.get("time") || 0,
-			autoplay: 1,
-
-			// The video has to be explicitly muted for autoplaying to work
-			mute: 1,
-
-			controls: 0,
-			loop: 1,
-
-			// playlist has to be set to the ID as well for looping to work
-			playlist: ytID,
-		},
-		events: {
-			"onReady": onPlayerReady,
-			"onError": onError
-		},
-	});
-}
-
-const onPlayerReady = () => {
-	setTimeout(() => {
-		params.set("time", Math.floor(player.getCurrentTime()));
-		const url = new URL(window.location.href);
-		url.search = params.toString();
-		window.location.href = url.toString();
-
-	// Add a second of delay because the YouTube frame takes a second or so to
-	// load initially
-	}, ytReload + 1000);
-};
-
-
-// https://developers.google.com/youtube/iframe_api_reference#onError
-const onError = event => {
-	console.log("Received error from YouTube API");
-	console.log(event);
-};
-
-// Initiate the iframe player API, which gets picked up on
-// onYouTubePlayerAPIReady
-const ytMode = () => {
-	const script = document.createElement("script");
-	script.src = "https://www.youtube.com/player_api";
-	document.body.appendChild(script);
-};
-
 const sections = ["main", "footer", "sidebar"];
 const containers = {};
 
@@ -84,7 +34,52 @@ const initImageCycle = section => {
 	nextImage(section);
 }
 
-sections.forEach(section => {
-	if (config[section].type == "image_cycle")
-		initImageCycle(section);
-});
+
+const initYouTube = section => {
+	const sectionContainer = containers[section];
+
+	const ytContainer = document.createElement("div");
+	const ytContainerId = `yt-${section}`;
+	ytContainer.id = ytContainerId;
+	sectionContainer.appendChild(ytContainer);
+
+	const ytId = config[section].video_id;
+	const player = new YT.Player(ytContainerId, {
+		videoId: ytId,
+		playerVars: {
+			start: params.get("time") || 0,
+			autoplay: 1,
+
+			// The video has to be explicitly muted for autoplaying to work
+			mute: 1,
+
+			controls: 0,
+			loop: 1,
+
+			// playlist has to be set to the ID as well for looping to work
+			playlist: ytId,
+		},
+		events: {
+			"onReady": () => {},
+
+			// https://developers.google.com/youtube/iframe_api_reference#onError
+			"onError": event => {
+				console.log("Received error from YouTube API");
+				console.log(event);
+			}
+		},
+	});
+}
+
+// It's easier to have everything configured together at once, so let's wait
+// until the YouTube API is ready too, even if we're not using it. This doesn't
+// load with an arrow function.
+function onYouTubePlayerAPIReady() {
+	sections.forEach(section => {
+		if (config[section].type == "image_cycle")
+			initImageCycle(section);
+
+		if (config[section].type == "youtube")
+			initYouTube(section);
+	});
+}
