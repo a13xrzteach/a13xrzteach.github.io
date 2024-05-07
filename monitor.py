@@ -12,6 +12,11 @@ async def index():
     return FileResponse("monitor.html")
 
 
+@app.get("/update")
+async def monitor_update():
+    return FileResponse("monitor_update.html")
+
+
 @app.get("/config")
 async def config():
     return FileResponse("config/monitor.js")
