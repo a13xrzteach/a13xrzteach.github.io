@@ -5,7 +5,7 @@ const config = {
 	},
 	"footer": {
 		"type": "youtube",
-		"video_id": "MOj7aLRipPo",
+		"video_id": "KQcbjphd7sw",
 	},
 	"sidebar": {
 		"type": "image_cycle",
