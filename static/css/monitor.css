@@ -1,23 +1,49 @@
-/*
-GPT-4 did almost all of the CSS.
-Life is too short to understand how top: 50%
-interacts with transform: translateY(-50%)
-*/
+body {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: 2fr 1fr;
 
-html, body {
-	padding: 0;
 	margin: 0;
-	height: 100%;
+	height: 100vh;
+
+	align-items: center;
+	justify-items: center;
+
+	background: black;
 }
 
 main {
+	grid-column: 1 / span 1;
+	grid-row: 1 / span 1;
 	height: 100%;
+	width: 100%;
 
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	align-content: center;
+	background: url(https://0x0.st/X8oT.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
-img {
-	max-width: 100%;
+footer {
+	grid-column: 1 / span 1;
+	grid-row: 2 / span 1;
+	height: 100%;
+	width: 100%;
+
+	background: url(https://0x0.st/X8oT.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+div#sidebar {
+	grid-column: 2 / span 1;
+	grid-row: 1 / span 2;
+	height: 100%;
+	width: 100%;
+
+	background: url(https://0x0.st/X8oT.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }

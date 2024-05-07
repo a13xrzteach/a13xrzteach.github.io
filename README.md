@@ -22,8 +22,9 @@ TODO Reword with link
 The format used is
 ```js
 const config = {
-	"left": display_obj,
-	"right": display_obj,
+	"main": display_obj,
+	"footer": display_obj,
+	"sidebar": display_obj,
 };
 ```
 
