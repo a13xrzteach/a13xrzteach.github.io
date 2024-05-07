@@ -12,28 +12,18 @@ body {
 	background: black;
 }
 
-main {
+main#main {
 	grid-column: 1 / span 1;
 	grid-row: 1 / span 1;
 	height: 100%;
 	width: 100%;
-
-	background: url(https://0x0.st/X8oT.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
-footer {
+footer#footer {
 	grid-column: 1 / span 1;
 	grid-row: 2 / span 1;
 	height: 100%;
 	width: 100%;
-
-	background: url(https://0x0.st/X8oT.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
 div#sidebar {
@@ -41,9 +31,4 @@ div#sidebar {
 	grid-row: 1 / span 2;
 	height: 100%;
 	width: 100%;
-
-	background: url(https://0x0.st/X8oT.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
 }

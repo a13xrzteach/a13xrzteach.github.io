@@ -1,31 +1,7 @@
-// monitor.js is loaded with config/monitor.js.
+// monitor.js is loaded with config/monitor.js, containing the config object.
 
 // Stored in seconds for consistency with image_cycle's image_duration
 const reloadInterval = 5 * 60;
-
-const cycleMode = () => {
-	const imgEl = document.getElementById("img");
-	let imgIdx = 0;
-
-	const update = () => {
-		if (cyclesBeforeRefresh == 0)
-			location.reload();
-
-		imgEl.src = `static/img/monitor/${cycleImages[imgIdx]}`;
-
-		imgIdx++;
-		if (imgIdx == cycleImages.length) {
-			imgIdx = 0;
-
-			cyclesBeforeRefresh--;
-		}
-	}
-	update();
-
-	setInterval(() => {
-		update();
-	}, imgDuration);
-};
 
 let player;
 const params = new URLSearchParams(window.location.search);
@@ -80,7 +56,35 @@ const ytMode = () => {
 	document.body.appendChild(script);
 };
 
-if (mode == "cycle")
-	cycleMode();
-else if (mode == "youtube")
-	ytMode();
+const sections = ["main", "footer", "sidebar"];
+const containers = {};
+
+sections.forEach(section => {
+	containers[section] = document.getElementById(section);
+});
+
+const nextImage = section => {
+	const oldIdx = config[section].image_index;
+	const images = config[section].images
+	const newIdx = (oldIdx + 1) % images.length
+
+	config[section].image_index = newIdx;
+	containers[section].style.backgroundImage = `url(/static/img/monitor/${images[newIdx]})`;
+}
+
+const initImageCycle = section => {
+	setInterval(() => nextImage(section), config[section].image_duration * 1000);
+
+	const container = containers[section];
+	container.style.backgroundSize = "contain";
+	container.style.backgroundRepeat = "no-repeat";
+	container.style.backgroundPosition = "center";
+
+	config[section].image_index = -1;
+	nextImage(section);
+}
+
+sections.forEach(section => {
+	if (config[section].type == "image_cycle")
+		initImageCycle(section);
+});
