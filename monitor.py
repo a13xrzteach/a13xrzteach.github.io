@@ -12,6 +12,12 @@ async def index():
     return FileResponse("monitor.html")
 
 
+# Poor makeshift solution for the unrecoverable Pis.
+@app.get("/monitor.html")
+async def config_redirect():
+    return FileResponse("monitor.html")
+
+
 @app.get("/update")
 async def monitor_update():
     return FileResponse("monitor_update.html")
