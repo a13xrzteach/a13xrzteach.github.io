@@ -10,7 +10,9 @@ reload=$((60 * 60 * 3))
 while :
 do
 	echo "pi client_manager: Refreshing"
-	git pull
+	git fetch origin
+	git reset --hard origin/main
+
 	./client
 
 	sleep "$reload"

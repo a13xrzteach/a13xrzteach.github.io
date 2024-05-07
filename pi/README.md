@@ -53,7 +53,7 @@ cd ~/src
 git clone https://github.com/a13xrzteach/a13xrzteach.github.io/
 ```
 
-Configure git pull:
+Configure git pull (may not be required since switch to fetch and reset):
 ```sh
 git config --global pull.rebase false
 ```

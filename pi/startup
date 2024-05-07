@@ -13,7 +13,10 @@ fi
 
 echo "startup: pulling"
 
-git pull
+# A literal git pull would break if you accidentally commit something locally
+# (which has happened multiple times; Michael is a clown)
+git fetch origin
+git reset --hard origin/main
 
 echo "startup: planning reboot"
 
