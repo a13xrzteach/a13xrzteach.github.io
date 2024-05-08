@@ -23,6 +23,11 @@ async def monitor_update():
     return FileResponse("monitor_update.html")
 
 
+@app.post("/api/update")
+async def monitor_api_update():
+    return "ok"
+
+
 @app.get("/config")
 async def config():
     return FileResponse("config/monitor.js")

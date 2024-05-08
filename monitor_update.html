@@ -2,7 +2,17 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<link href="https://unpkg.com/sakura.css/css/sakura.css" rel="stylesheet">
+		<link rel="stylesheet" href="/static/css/sakura.css">
+
+		<style>
+			section#image_cycle {
+				display: block;
+			}
+
+			section#youtube {
+				display: none;
+			}
+		</style>
 
 		<title>Monitor Update</title>
 	</head>
@@ -13,13 +23,35 @@
 		<img src="/static/img/monitor/layout.png">
 
 		<hr>
-		<h3>Section A: Main</h3>
 
-		<hr>
-		<h3>Section B: Footer</h3>
+		<form method="POST" action="/api/update" enctype="multipart/form-data">
+			<label for="section">Section select</label>
+			<select id="section" name="section">
+				<option value="a" selected>A: Main</option>
+				<option value="b">B: Footer</option>
+				<option value="c">C: Sidebar</option>
+			</select>
 
-		<hr>
-		<h3>Section C: Sidebar</h3>
+			<label for="type">Section type</label>
+			<select id="type" name="type">
+				<option value="image_cycle" selected>Image cycle</option>
+				<option value="youtube">YouTube</option>
+			</select>
+
+			<br>
+
+			<section id="image_cycle">
+				<label for="image_files">Cycle image file upload</label>
+				<input id="images_files" name="image_files" type="file" multiple>
+			</section>
+
+			<section id="youtube">
+				<label for="youtube_url">YouTube URL</label>
+				<input id="youtube_url" name="youtube_url" type="text" placeholder="https://youtube.com/watch?v=o-YBDTqX_ZU">
+			</section>
+
+			<input type="submit" value="Update">
+		</form>
 
 		<hr>
 		<p>Contact Room 203 for questions or assistance.</p>
