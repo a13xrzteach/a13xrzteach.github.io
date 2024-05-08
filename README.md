@@ -13,19 +13,17 @@ you will lack physical access to after deploying, such as one of the Raspberry
 Pis connected to the TV monitors. See
 [pi/README.md](https://github.com/a13xrzteach/a13xrzteach.github.io/blob/main/pi/README.md).
 
-## Monitor config.js format
-The monitor's configuration is stored in ``config/monitor.js``. It is not intended
-to be modified by hand. Instead, you use the GUI frontend.
-
-TODO Reword with link
+## Monitor config.json format
+The monitor's configuration is stored in ``config/monitor.json``. It is not intended
+to be modified by hand. Instead, you use the GUI frontend located at ``/update``.
 
 The format used is
-```js
-const config = {
+```json
+{
 	"main": display_obj,
 	"footer": display_obj,
-	"sidebar": display_obj,
-};
+	"sidebar": display_obj
+}
 ```
 
 ``display_obj`` describes a type of display to show. There are two current types.
@@ -57,8 +55,6 @@ image should be shown for before transitioning to the next one.
 Your video can be a recorded video or an active livestream.
 
 Some videos are blocked even if they don't show any blocks inside YouTube
-Studio, though. Test them out in a private window locally first to check.
-
-Make sure you're using an HTTP server like
-``python -m http.server``
-All file:// requests will be blocked by the API by default.
+Studio, though. Test them out in a private window locally first to check. All
+file:// requests will be blocked by the API by default, so use the provided
+uvicorn server.

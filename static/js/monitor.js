@@ -71,10 +71,15 @@ const initYouTube = section => {
 	});
 }
 
+let config = {};
+
 // It's easier to have everything configured together at once, so let's wait
 // until the YouTube API is ready too, even if we're not using it. This doesn't
 // load with an arrow function.
-function onYouTubePlayerAPIReady() {
+async function onYouTubePlayerAPIReady() {
+	const raw = await fetch("/config");
+	config = await raw.json();
+
 	sections.forEach(section => {
 		if (config[section].type == "image_cycle")
 			initImageCycle(section);

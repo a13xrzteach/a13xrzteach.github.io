@@ -78,4 +78,4 @@ async def monitor_api_update(
 
 @app.get("/config")
 async def config():
-    return FileResponse("config/monitor.js")
+    return FileResponse("config/monitor.json")
