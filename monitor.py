@@ -59,6 +59,7 @@ async def monitor_api_update(
     section: str = Form(...),
     type: str = Form(...),
     image_files: List[UploadFile] = File(...),
+    image_interval: float = Form(...),
     youtube_url: Optional[str] = Form(None),
 ):
     section = {

@@ -7,14 +7,17 @@ sectionsArray.forEach(section => {
 });
 
 const inputRequirements = {
-	"image_cycle": document.getElementById("image_files"),
-	"youtube": document.getElementById("youtube_url"),
+	"image_cycle": ["image_interval", "image_files"],
+	"youtube": ["youtube_url"],
 };
 
 sectionType.onchange = event => {
 	sectionsArray.forEach(section => {
 		const isSelected = event.target.value == section;
 		sections[section].style.display = isSelected ? "block" : "none";
-		inputRequirements[section].required = isSelected;
+
+		inputRequirements[section].forEach(
+			id => document.getElementById(id).required = isSelected
+		);
 	});
 };

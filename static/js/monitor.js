@@ -1,11 +1,3 @@
-// monitor.js is loaded with config/monitor.js, containing the config object.
-
-// Stored in seconds for consistency with image_cycle's image_duration
-const reloadInterval = 5 * 60;
-
-let player;
-const params = new URLSearchParams(window.location.search);
-
 const sections = ["main", "footer", "sidebar"];
 const containers = {};
 
