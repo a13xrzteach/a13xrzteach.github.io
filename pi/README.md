@@ -3,8 +3,10 @@
 - Standard Linux installation
 - ``git``
 - ``jq``
-- ``uvicorn``
+- ``python-bcrypt``
 - ``python-fastapi``
+- ``python-python-multipart`` (yes)
+- ``uvicorn``
 - ``kakoune`` for text editing (optional)
 
 ## Startup
