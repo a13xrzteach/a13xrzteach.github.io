@@ -1,15 +1,23 @@
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, status, UploadFile
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 
+from bcrypt import checkpw
 from json import dumps, loads
 from re import search
-from typing import List, Optional
+from typing import Annotated, List, Optional
 from uuid import uuid4
 
 app = FastAPI()
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+security = HTTPBasic()
+
+
+hashed_password = ""
+with open("config/monitor_password.txt") as f:
+    hashed_password = f.read().strip().encode()
 
 
 def redirect(path):
@@ -27,8 +35,26 @@ async def config_redirect():
     return redirect("/")
 
 
+def authorization(
+    credentials: Annotated[HTTPBasicCredentials, Depends(security)],
+):
+    is_correct_username = credentials.username == "oboro"
+
+    guess_password = credentials.password.encode()
+    is_correct_password = checkpw(guess_password, hashed_password)
+
+    if not (is_correct_username and is_correct_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="IP out of whitelisted range",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+
+    return True
+
+
 @app.get("/update")
-async def monitor_update():
+async def monitor_update(authorized: Annotated[bool, Depends(authorization)]):
     return FileResponse("monitor_update.html")
 
 
@@ -54,7 +80,9 @@ def get_monitor_config():
         return loads(f.read())
 
 
-def set_monitor_config(monitor_config):
+def set_monitor_config(
+    monitor_config, authorized: Annotated[bool, Depends(authorization)]
+):
     with open("config/monitor.json", "w") as f:
         f.write(dumps(monitor_config))
 
@@ -77,6 +105,7 @@ async def save_images(image_files):
 
 @app.post("/api/update")
 async def monitor_api_update(
+    authorized: Annotated[bool, Depends(authorization)],
     section: str = Form(...),
     type: str = Form(...),
     image_files: List[UploadFile] = File(...),
@@ -123,7 +152,7 @@ async def monitor_api_update(
         display = {"type": "youtube", "video_id": id}
 
     monitor_config[section] = display
-    set_monitor_config(monitor_config)
+    set_monitor_config(monitor_config, authorized)
     return redirect("/update")
 
 

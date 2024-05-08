@@ -17,6 +17,10 @@ Pis connected to the TV monitors. See
 The monitor's configuration is stored in ``config/monitor.json``. It is not intended
 to be modified by hand. Instead, you use the GUI frontend located at ``/update``.
 
+To access ``/update``, you will need to provide correct credentials.
+- The username is public: ``oboro``
+- The password is private. Ask Room 203 if you need access.
+
 The format used is
 ```json
 {
