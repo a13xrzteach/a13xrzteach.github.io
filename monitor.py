@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
+from json import dumps, loads
 from re import search
 from typing import List, Optional
 
@@ -43,6 +44,16 @@ def parse_youtube_id(youtube_url):
     return id
 
 
+def get_monitor_config():
+    with open("config/monitor.json") as f:
+        return loads(f.read())
+
+
+def set_monitor_config(monitor_config):
+    with open("config/monitor.json", "w") as f:
+        f.write(dumps(monitor_config))
+
+
 @app.post("/api/update")
 async def monitor_api_update(
     section: str = Form(...),
@@ -50,7 +61,15 @@ async def monitor_api_update(
     image_files: List[UploadFile] = File(...),
     youtube_url: Optional[str] = Form(None),
 ):
-    if section not in ["a", "b", "c"]:
+    section = {
+        "a": "main",
+        "b": "footer",
+        "c": "sidebar",
+    }.get(section)
+
+    monitor_config = get_monitor_config()
+
+    if not section:
         return "Invalid section"
 
     if type not in ["image_cycle", "youtube"]:
@@ -73,9 +92,13 @@ async def monitor_api_update(
     if not id:
         return "Invalid YouTube URL format provided"
 
+    display = {"type": "youtube", "video_id": id}
+    monitor_config[section] = display
+    set_monitor_config(monitor_config)
+
     return "ok youtube"
 
 
 @app.get("/config")
 async def config():
-    return FileResponse("config/monitor.json")
+    return get_monitor_config()
