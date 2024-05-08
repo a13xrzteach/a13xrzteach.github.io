@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
+from re import search
 from typing import List, Optional
 
 app = FastAPI()
@@ -25,8 +26,21 @@ async def monitor_update():
     return FileResponse("monitor_update.html")
 
 
+# e.g.
+# https://youtube.com/watch?v=o-YBDTqX_ZU
+# https://youtube.com/watch?v=o-YBDTqX_ZU&foo=bar&bar=baz
+# https://www.youtube.com/watch?v=o-YBDTqX_ZU?foo=bar&bar=baz
+# https://youtu.be/o-YBDTqX_ZU?si=pLeuVDoJjradBVeA
 def parse_youtube_id(youtube_url):
-    return "o-YBDTqX_ZU"
+    r = search("^https?://(www\.)?youtube\.com/watch\?v=[a-zA-Z0-9_-]{11}", youtube_url)
+    if not r:
+        r = search("^https?://(www\.)?youtu\.be/[a-zA-Z0-9_-]{11}", youtube_url)
+
+    if not r:
+        return None
+
+    id = r.group(0)[-11:]
+    return id
 
 
 @app.post("/api/update")
