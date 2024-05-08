@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 
 from json import dumps, loads
 from re import search
@@ -11,6 +11,10 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
+def redirect(path):
+    return RedirectResponse(path, status_code=301)
+
+
 @app.get("/")
 async def index():
     return FileResponse("monitor.html")
@@ -19,7 +23,7 @@ async def index():
 # Poor makeshift solution for the unrecoverable Pis.
 @app.get("/monitor.html")
 async def config_redirect():
-    return FileResponse("monitor.html")
+    return redirect("/")
 
 
 @app.get("/update")
@@ -84,7 +88,7 @@ async def monitor_api_update(
             if not file.content_type.startswith("image/"):
                 return "image cycle type only accepts image files"
 
-        return "ok image_cycle"
+        return redirect("/update")
 
     if not youtube_url:
         return "No YouTube URL provided"
@@ -97,7 +101,7 @@ async def monitor_api_update(
     monitor_config[section] = display
     set_monitor_config(monitor_config)
 
-    return "ok youtube"
+    return redirect("/update")
 
 
 @app.get("/config")
