@@ -127,6 +127,9 @@ async def monitor_api_update(
         return "Invalid section type"
 
     if type == "image_cycle":
+        if image_interval < 0.5:
+            return "Image interval should be >= 0.5 seconds"
+
         for file in image_files:
             if not file.filename:
                 return "image cycle type requires at least one image file"
