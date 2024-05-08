@@ -36,13 +36,14 @@ The format used is
 		"image1.png",
 		"image2.png",
 	],
-	"image_duration": 1,
+	"image_interval": 1,
 }
 ```
 
 For image cycles, the images are stored in the ``static/img/monitor/``
-directory. ``image_duration`` is a number, in seconds, specifying how long each
-image should be shown for before transitioning to the next one.
+directory. ``image_interval`` is a number, in seconds (floats permitted),
+specifying how long each image should be shown for before transitioning to the
+next one.
 
 ### YouTube embedded video
 ```json

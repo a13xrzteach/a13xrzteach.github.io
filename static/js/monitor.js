@@ -15,7 +15,7 @@ const nextImage = section => {
 }
 
 const initImageCycle = section => {
-	setInterval(() => nextImage(section), config[section].image_duration * 1000);
+	setInterval(() => nextImage(section), config[section].image_interval * 1000);
 
 	const container = containers[section];
 	container.style.backgroundSize = "contain";
@@ -39,7 +39,7 @@ const initYouTube = section => {
 	const player = new YT.Player(ytContainerId, {
 		videoId: ytId,
 		playerVars: {
-			start: params.get("time") || 0,
+			start: 0,
 			autoplay: 1,
 
 			// The video has to be explicitly muted for autoplaying to work

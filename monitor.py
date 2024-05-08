@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse, RedirectResponse
 from json import dumps, loads
 from re import search
 from typing import List, Optional
+from uuid import uuid4
 
 app = FastAPI()
 
@@ -31,7 +32,7 @@ async def monitor_update():
     return FileResponse("monitor_update.html")
 
 
-# e.g.
+# Should parse the following formats, at least
 # https://youtube.com/watch?v=o-YBDTqX_ZU
 # https://youtube.com/watch?v=o-YBDTqX_ZU&foo=bar&bar=baz
 # https://www.youtube.com/watch?v=o-YBDTqX_ZU?foo=bar&bar=baz
@@ -56,6 +57,22 @@ def get_monitor_config():
 def set_monitor_config(monitor_config):
     with open("config/monitor.json", "w") as f:
         f.write(dumps(monitor_config))
+
+
+# These files should already have been validated
+async def save_images(image_files):
+    filenames = []
+
+    for file in image_files:
+        filename = f"user-{uuid4()}"
+        filenames.append(filename)
+
+        path = "static/img/monitor/" + filename
+        content = await file.read()
+        with open(path, "wb") as f:
+            f.write(content)
+
+    return filenames
 
 
 @app.post("/api/update")
@@ -88,19 +105,25 @@ async def monitor_api_update(
             if not file.content_type.startswith("image/"):
                 return "image cycle type only accepts image files"
 
-        return redirect("/update")
+        filenames = await save_images(image_files)
+        display = {
+            "type": "image_cycle",
+            "images": filenames,
+            "image_interval": image_interval,
+        }
 
-    if not youtube_url:
-        return "No YouTube URL provided"
+    elif type == "youtube":
+        if not youtube_url:
+            return "No YouTube URL provided"
 
-    id = parse_youtube_id(youtube_url)
-    if not id:
-        return "Invalid YouTube URL format provided"
+        id = parse_youtube_id(youtube_url)
+        if not id:
+            return "Invalid YouTube URL format provided"
 
-    display = {"type": "youtube", "video_id": id}
+        display = {"type": "youtube", "video_id": id}
+
     monitor_config[section] = display
     set_monitor_config(monitor_config)
-
     return redirect("/update")
 
 
