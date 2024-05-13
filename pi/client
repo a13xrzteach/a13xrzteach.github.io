@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # Configured (../monitor.py) to serve monitor on root /
-endpoint="http://10.242.207.207:17860/"
+# endpoint="http://10.242.207.207:17860/"
+endpoint="https://www2.yrdsb.ca/"
 
 killall chromium
 
@@ -15,13 +16,8 @@ killall chromium
 
 # Full list: https://peter.sh/experiments/chromium-command-line-switches/
 
-# chromium \
-# 	--guest \
-# 	--kiosk \
-# 	--force-device-scale-factor=0.9 \
-# 	"$endpoint" &
-
 chromium \
 	--guest \
+	--kiosk \
 	--force-device-scale-factor=0.9 \
 	"$endpoint" &
