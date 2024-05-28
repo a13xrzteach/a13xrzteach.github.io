@@ -1,0 +1,7 @@
+#!/bin/sh
+cd ./static/js
+
+tsc *.ts \
+	--target ES6 \
+	--strict \
+	--watch
