@@ -64,9 +64,11 @@ async def monitor_update(authorized: Annotated[bool, Depends(authorization)]):
 # https://www.youtube.com/watch?v=o-YBDTqX_ZU?foo=bar&bar=baz
 # https://youtu.be/o-YBDTqX_ZU?si=pLeuVDoJjradBVeA
 def parse_youtube_id(youtube_url):
-    r = search("^https?://(www\.)?youtube\.com/watch\?v=[a-zA-Z0-9_-]{11}", youtube_url)
+    r = search(
+        "^https?://(www\\.)?youtube\\.com/watch\\?v=[a-zA-Z0-9_-]{11}", youtube_url
+    )
     if not r:
-        r = search("^https?://(www\.)?youtu\.be/[a-zA-Z0-9_-]{11}", youtube_url)
+        r = search("^https?://(www\\.)?youtu\\.be/[a-zA-Z0-9_-]{11}", youtube_url)
 
     if not r:
         return None
