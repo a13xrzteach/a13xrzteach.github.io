@@ -11,6 +11,7 @@ declare namespace YT {
 			autoplay: number;
 			mute: number;
 			controls: number;
+			cc_load_policy: number;
 			loop: number;
 			playlist: string;
 		}

@@ -71,15 +71,18 @@ class YouTubeSection extends Section {
 		const player = new YT.Player(ytContainerId, {
 			videoId: this.videoId,
 
+			// https://developers.google.com/youtube/player_parameters
 			playerVars: {
 				start: 0,
 				autoplay: 1,
+				controls: 0,
+				loop: 1,
 
 				// The video has to be explicitly muted for autoplaying to work
 				mute: 1,
 
-				controls: 0,
-				loop: 1,
+				// Show captions by default
+				cc_load_policy: 1,
 
 				// playlist has to be set to the ID as well for looping to work
 				playlist: this.videoId,
