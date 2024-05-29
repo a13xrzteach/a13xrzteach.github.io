@@ -15,10 +15,12 @@ class Section {
     }
 }
 class ImageSection extends Section {
+    // Get a valid string to use as a background-image CSS property
     getCSSImageUrl() {
         const localPath = this.images[this.image_index];
         return `url(/static/img/monitor/${localPath})`;
     }
+    // Increment image_index to loop across the images array, updating the image
     nextImage() {
         this.image_index = (this.image_index + 1) % this.images.length;
         this.element.style.backgroundImage = this.getCSSImageUrl();
@@ -28,6 +30,7 @@ class ImageSection extends Section {
         this.element.style.backgroundSize = "contain";
         this.element.style.backgroundRepeat = "no-repeat";
         this.element.style.backgroundPosition = "center";
+        // nextImage increments the index by 1 and we want to start at 0
         this.image_index = -1;
         this.nextImage();
     }
@@ -40,6 +43,7 @@ class ImageSection extends Section {
 }
 class YouTubeSection extends Section {
     init() {
+        // Create a wrapper for the YouTube API to place the video inside
         const ytContainer = document.createElement("div");
         const ytContainerId = `yt-${this.elementId}`;
         ytContainer.id = ytContainerId;
@@ -82,6 +86,8 @@ class Monitor {
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             const config = yield this.getConfig();
+            // The only sectionIds we expect are mirrored in monitor.html:
+            // main, footer, sidebar
             for (const sectionId in config) {
                 let section;
                 if (config[sectionId].type == "image_cycle") {
