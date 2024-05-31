@@ -62,11 +62,11 @@ class YouTubeSection extends Section {
             cc_load_policy: 1,
         };
         // playlist has to be set to the ID as well for looping to work
-        playerVars.playlist = this.videoId;
+        playerVars.playlist = this.resourceId;
         // playerVars.list = "PLhN2KFLfxLBSjyRjwZZ6bY6PfVNSn_PW9";
         // playerVars.listType = "playlist";
         const playerOptions = {
-            videoId: this.videoId,
+            videoId: this.resourceId,
             playerVars: playerVars,
             events: {
                 onReady: () => { },
@@ -79,9 +79,9 @@ class YouTubeSection extends Section {
         };
         const player = new YT.Player(ytContainerId, playerOptions);
     }
-    constructor(elementId, videoId) {
+    constructor(elementId, resourceId) {
         super(elementId);
-        this.videoId = videoId;
+        this.resourceId = resourceId;
     }
 }
 class Monitor {
@@ -103,9 +103,9 @@ class Monitor {
                     const sectionConfig = config[sectionId];
                     section = new ImageSection(sectionId, sectionConfig.images, sectionConfig.image_interval);
                 }
-                else if (config[sectionId].type == "youtube") {
+                else if (config[sectionId].type == "youtube_video") {
                     const sectionConfig = config[sectionId];
-                    section = new YouTubeSection(sectionId, sectionConfig.video_id);
+                    section = new YouTubeSection(sectionId, sectionConfig.resource_id);
                 }
                 else {
                     alert("Error: Invalid section configuration. See the JS console.");

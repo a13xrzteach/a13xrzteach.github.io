@@ -125,8 +125,10 @@ async def monitor_api_update(
     if not section:
         return "Invalid section"
 
-    if type not in ["image_cycle", "youtube"]:
+    if type not in ["image_cycle", "youtube_video"]:
         return "Invalid section type"
+
+    display = {"type": type}
 
     if type == "image_cycle":
         if image_interval < 0.5:
@@ -140,13 +142,14 @@ async def monitor_api_update(
                 return "image cycle type only accepts image files"
 
         filenames = await save_images(image_files)
-        display = {
-            "type": "image_cycle",
-            "images": filenames,
-            "image_interval": image_interval,
-        }
+        display.update(
+            {
+                "images": filenames,
+                "image_interval": image_interval,
+            }
+        )
 
-    elif type == "youtube":
+    elif type == "youtube_video":
         if not youtube_url:
             return "No YouTube URL provided"
 
@@ -154,7 +157,7 @@ async def monitor_api_update(
         if not id:
             return "Invalid YouTube URL format provided"
 
-        display = {"type": "youtube", "video_id": id}
+        display.update({"resource_id": id})
 
     monitor_config[section] = display
     set_monitor_config(monitor_config, authorized)

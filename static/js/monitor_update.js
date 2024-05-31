@@ -1,6 +1,6 @@
 const sectionType = document.getElementById("type");
 
-const sectionsArray = ["image_cycle", "youtube"];
+const sectionsArray = ["image_cycle", "youtube_video"];
 const sections = {};
 sectionsArray.forEach(section => {
 	sections[section] = document.getElementById(section);
@@ -8,7 +8,7 @@ sectionsArray.forEach(section => {
 
 const inputRequirements = {
 	"image_cycle": ["image_interval", "image_files"],
-	"youtube": ["youtube_url"],
+	"youtube_video": ["youtube_url"],
 };
 
 sectionType.onchange = event => {
@@ -46,11 +46,11 @@ const parseCurrent = (section, config) => {
 		});
 	}
 
-	else if (config.type == "youtube") {
+	else if (config.type == "youtube_video") {
 		const linkEl = document.createElement("li");
 
 		const a = document.createElement("a");
-		const url = `https://youtube.com/watch?v=${config.video_id}`;
+		const url = `https://youtube.com/watch?v=${config.resource_id}`;
 		a.href = url;
 		a.innerHTML = url;
 

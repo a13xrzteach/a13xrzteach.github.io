@@ -59,7 +59,7 @@ class ImageSection extends Section {
 }
 
 class YouTubeSection extends Section {
-	videoId: string
+	resourceId: string
 
 	init() {
 		// Create a wrapper for the YouTube API to place the video inside
@@ -87,13 +87,13 @@ class YouTubeSection extends Section {
 		}
 
 		// playlist has to be set to the ID as well for looping to work
-		playerVars.playlist = this.videoId;
+		playerVars.playlist = this.resourceId;
 
 		// playerVars.list = "PLhN2KFLfxLBSjyRjwZZ6bY6PfVNSn_PW9";
 		// playerVars.listType = "playlist";
 
 		const playerOptions = {
-			videoId: this.videoId,
+			videoId: this.resourceId,
 			playerVars: playerVars,
 
 			events: {
@@ -110,9 +110,9 @@ class YouTubeSection extends Section {
 		const player = new YT.Player(ytContainerId, playerOptions);
 	}
 
-	constructor(elementId: string, videoId: string) {
+	constructor(elementId: string, resourceId: string) {
 		super(elementId);
-		this.videoId = videoId;
+		this.resourceId = resourceId;
 	}
 }
 
@@ -129,7 +129,7 @@ interface ImageConfig extends SectionConfig {
 }
 
 interface YouTubeConfig extends SectionConfig {
-	video_id: string
+	resource_id: string
 }
 
 interface Config {
@@ -163,9 +163,9 @@ class Monitor {
 				);
 			}
 
-			else if (config[sectionId].type == "youtube") {
+			else if (config[sectionId].type == "youtube_video") {
 				const sectionConfig = config[sectionId] as YouTubeConfig;
-				section = new YouTubeSection(sectionId, sectionConfig.video_id);
+				section = new YouTubeSection(sectionId, sectionConfig.resource_id);
 			}
 
 			else {
