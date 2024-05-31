@@ -13,7 +13,10 @@ declare namespace YT {
 			controls: number;
 			cc_load_policy: number;
 			loop: number;
-			playlist: string;
+
+			list?: string;
+			listType?: string;
+			playlist?: string;
 		}
 
 		events: {

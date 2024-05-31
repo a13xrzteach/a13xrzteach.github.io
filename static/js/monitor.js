@@ -48,30 +48,36 @@ class YouTubeSection extends Section {
         const ytContainerId = `yt-${this.elementId}`;
         ytContainer.id = ytContainerId;
         this.element.appendChild(ytContainer);
-        const player = new YT.Player(ytContainerId, {
+        // https://developers.google.com/youtube/player_parameters
+        const playerVars = {
+            // Set which second to start at - we want to play from the start of
+            // the video
+            start: 0,
+            autoplay: 1,
+            controls: 1,
+            loop: 1,
+            // The video has to be explicitly muted for autoplaying to work
+            mute: 1,
+            // Show captions by default
+            cc_load_policy: 1,
+        };
+        // playlist has to be set to the ID as well for looping to work
+        playerVars.playlist = this.videoId;
+        // playerVars.list = "PLhN2KFLfxLBSjyRjwZZ6bY6PfVNSn_PW9";
+        // playerVars.listType = "playlist";
+        const playerOptions = {
             videoId: this.videoId,
-            // https://developers.google.com/youtube/player_parameters
-            playerVars: {
-                start: 0,
-                autoplay: 1,
-                controls: 0,
-                loop: 1,
-                // The video has to be explicitly muted for autoplaying to work
-                mute: 1,
-                // Show captions by default
-                cc_load_policy: 1,
-                // playlist has to be set to the ID as well for looping to work
-                playlist: this.videoId,
-            },
+            playerVars: playerVars,
             events: {
                 onReady: () => { },
                 // https://developers.google.com/youtube/iframe_api_reference#onError
-                onError: event => {
+                onError: (event) => {
                     console.log("Received error from YouTube API");
                     console.log(event);
                 }
             },
-        });
+        };
+        const player = new YT.Player(ytContainerId, playerOptions);
     }
     constructor(elementId, videoId) {
         super(elementId);
