@@ -17,28 +17,28 @@ class Section {
 class ImageSection extends Section {
     // Get a valid string to use as a background-image CSS property
     getCSSImageUrl() {
-        const localPath = this.images[this.image_index];
+        const localPath = this.images[this.imageIndex];
         return `url(/static/img/monitor/${localPath})`;
     }
-    // Increment image_index to loop across the images array, updating the image
+    // Increment imageIndex to loop across the images array, updating the image
     nextImage() {
-        this.image_index = (this.image_index + 1) % this.images.length;
+        this.imageIndex = (this.imageIndex + 1) % this.images.length;
         this.element.style.backgroundImage = this.getCSSImageUrl();
     }
     init() {
-        setInterval(() => this.nextImage(), this.image_interval * 1000);
+        setInterval(() => this.nextImage(), this.imageInterval * 1000);
         this.element.style.backgroundSize = "contain";
         this.element.style.backgroundRepeat = "no-repeat";
         this.element.style.backgroundPosition = "center";
         // nextImage increments the index by 1 and we want to start at 0
-        this.image_index = -1;
+        this.imageIndex = -1;
         this.nextImage();
     }
-    constructor(elementId, images, image_interval) {
+    constructor(elementId, images, imageInterval) {
         super(elementId);
         this.images = images;
-        this.image_interval = image_interval;
-        this.image_index = 0;
+        this.imageInterval = imageInterval;
+        this.imageIndex = 0;
     }
 }
 class YouTubeSection extends Section {

@@ -17,44 +17,44 @@ class ImageSection extends Section {
 	images: string[]
 
 	// How long to spend on an image before cycling to the next one (ms)
-	image_interval: number
+	imageInterval: number
 
-	// image_index keeps track of the current index within the this.images array
+	// imageIndex keeps track of the current index within the this.images array
 	// of which image is displayed. This is entirely managed by the JavaScript
 	// code and not extracted from the JSON.
-	image_index: number
+	imageIndex: number
 
 	// Get a valid string to use as a background-image CSS property
 	getCSSImageUrl() {
-		const localPath = this.images[this.image_index];
+		const localPath = this.images[this.imageIndex];
 		return `url(/static/img/monitor/${localPath})`;
 	}
 
-	// Increment image_index to loop across the images array, updating the image
+	// Increment imageIndex to loop across the images array, updating the image
 	nextImage() {
-		this.image_index = (this.image_index + 1) % this.images.length
+		this.imageIndex = (this.imageIndex + 1) % this.images.length
 		this.element.style.backgroundImage = this.getCSSImageUrl();
 	}
 
 	init() {
-		setInterval(() => this.nextImage(), this.image_interval * 1000);
+		setInterval(() => this.nextImage(), this.imageInterval * 1000);
 
 		this.element.style.backgroundSize = "contain";
 		this.element.style.backgroundRepeat = "no-repeat";
 		this.element.style.backgroundPosition = "center";
 
 		// nextImage increments the index by 1 and we want to start at 0
-		this.image_index = -1;
+		this.imageIndex = -1;
 		this.nextImage();
 	}
 
-	constructor(elementId: string, images: string[], image_interval: number) {
+	constructor(elementId: string, images: string[], imageInterval: number) {
 		super(elementId);
 
 		this.images = images;
-		this.image_interval = image_interval;
+		this.imageInterval = imageInterval;
 
-		this.image_index = 0;
+		this.imageIndex = 0;
 	}
 }
 
