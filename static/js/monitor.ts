@@ -60,6 +60,7 @@ class ImageSection extends Section {
 
 class YouTubeSection extends Section {
 	resourceId: string
+	type: string
 
 	init() {
 		// Create a wrapper for the YouTube API to place the video inside
@@ -86,11 +87,16 @@ class YouTubeSection extends Section {
 			cc_load_policy: 1,
 		}
 
-		// playlist has to be set to the ID as well for looping to work
-		playerVars.playlist = this.resourceId;
+		if (this.type == "youtube_video") {
+			// playlist has to be set to the ID as well for looping to work
+			playerVars.playlist = this.resourceId;
+		}
+		else if (this.type == "youtube_playlist") {
+			playerVars.list = this.resourceId;
+			playerVars.listType = "playlist";
+		}
 
-		// playerVars.list = "PLhN2KFLfxLBSjyRjwZZ6bY6PfVNSn_PW9";
-		// playerVars.listType = "playlist";
+		else console.error("Invalid YouTubeSection type", this.type);
 
 		const playerOptions = {
 			videoId: this.resourceId,
@@ -110,9 +116,11 @@ class YouTubeSection extends Section {
 		const player = new YT.Player(ytContainerId, playerOptions);
 	}
 
-	constructor(elementId: string, resourceId: string) {
+	constructor(elementId: string, config: YouTubeConfig) {
 		super(elementId);
-		this.resourceId = resourceId;
+
+		this.resourceId = config.resource_id;
+		this.type = config.type;
 	}
 }
 
@@ -163,9 +171,12 @@ class Monitor {
 				);
 			}
 
-			else if (config[sectionId].type == "youtube_video") {
+			else if (
+				config[sectionId].type == "youtube_video" ||
+				config[sectionId].type == "youtube_playlist"
+			) {
 				const sectionConfig = config[sectionId] as YouTubeConfig;
-				section = new YouTubeSection(sectionId, sectionConfig.resource_id);
+				section = new YouTubeSection(sectionId, sectionConfig);
 			}
 
 			else {

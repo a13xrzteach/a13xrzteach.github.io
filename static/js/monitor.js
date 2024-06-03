@@ -61,10 +61,16 @@ class YouTubeSection extends Section {
             // Show captions by default
             cc_load_policy: 1,
         };
-        // playlist has to be set to the ID as well for looping to work
-        playerVars.playlist = this.resourceId;
-        // playerVars.list = "PLhN2KFLfxLBSjyRjwZZ6bY6PfVNSn_PW9";
-        // playerVars.listType = "playlist";
+        if (this.type == "youtube_video") {
+            // playlist has to be set to the ID as well for looping to work
+            playerVars.playlist = this.resourceId;
+        }
+        else if (this.type == "youtube_playlist") {
+            playerVars.list = this.resourceId;
+            playerVars.listType = "playlist";
+        }
+        else
+            console.error("Invalid YouTubeSection type", this.type);
         const playerOptions = {
             videoId: this.resourceId,
             playerVars: playerVars,
@@ -79,9 +85,10 @@ class YouTubeSection extends Section {
         };
         const player = new YT.Player(ytContainerId, playerOptions);
     }
-    constructor(elementId, resourceId) {
+    constructor(elementId, config) {
         super(elementId);
-        this.resourceId = resourceId;
+        this.resourceId = config.resource_id;
+        this.type = config.type;
     }
 }
 class Monitor {
@@ -103,9 +110,10 @@ class Monitor {
                     const sectionConfig = config[sectionId];
                     section = new ImageSection(sectionId, sectionConfig.images, sectionConfig.image_interval);
                 }
-                else if (config[sectionId].type == "youtube_video") {
+                else if (config[sectionId].type == "youtube_video" ||
+                    config[sectionId].type == "youtube_playlist") {
                     const sectionConfig = config[sectionId];
-                    section = new YouTubeSection(sectionId, sectionConfig.resource_id);
+                    section = new YouTubeSection(sectionId, sectionConfig);
                 }
                 else {
                     alert("Error: Invalid section configuration. See the JS console.");
