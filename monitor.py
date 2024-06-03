@@ -63,7 +63,8 @@ async def monitor_update(authorized: Annotated[bool, Depends(authorization)]):
 # https://youtube.com/watch?v=o-YBDTqX_ZU&foo=bar&bar=baz
 # https://www.youtube.com/watch?v=o-YBDTqX_ZU?foo=bar&bar=baz
 # https://youtu.be/o-YBDTqX_ZU?si=pLeuVDoJjradBVeA
-def parse_youtube_id(youtube_url):
+# Returns the id of the video
+def parse_yt_video(youtube_url):
     r = search(
         "^https?://(www\\.)?youtube\\.com/watch\\?v=[a-zA-Z0-9_-]{11}", youtube_url
     )
@@ -73,8 +74,22 @@ def parse_youtube_id(youtube_url):
     if not r:
         return None
 
-    id = r.group(0)[-11:]
-    return id
+    return r.group(0)[-11:]
+
+
+# Parse the following format
+# https://www.youtube.com/playlist?list=PLhN2KFLfxLBROc8wknPrb6_rCH-E7e383
+# Returns the id of the playlist
+def parse_yt_playlist(youtube_url):
+    r = search(
+        "^https?://(www\\.)?youtube\\.com/playlist\\?list=[a-zA-Z0-9_-]{34}",
+        youtube_url,
+    )
+
+    if not r:
+        return None
+
+    return r.group(0)[-34:]
 
 
 def get_monitor_config():
@@ -125,7 +140,7 @@ async def monitor_api_update(
     if not section:
         return "Invalid section"
 
-    if type not in ["image_cycle", "youtube_video"]:
+    if type not in ["image_cycle", "youtube_video", "youtube_playlist"]:
         return "Invalid section type"
 
     display = {"type": type}
@@ -151,11 +166,21 @@ async def monitor_api_update(
 
     elif type == "youtube_video":
         if not youtube_url:
-            return "No YouTube URL provided"
+            return "No video URL provided"
 
-        id = parse_youtube_id(youtube_url)
+        id = parse_yt_video(youtube_url)
         if not id:
             return "Invalid YouTube URL format provided"
+
+        display.update({"resource_id": id})
+
+    elif type == "youtube_playlist":
+        if not youtube_url:
+            return "No playlist URL provided"
+
+        id = parse_yt_playlist(youtube_url)
+        if not id:
+            return "Invalid playlist URL format provided"
 
         display.update({"resource_id": id})
 

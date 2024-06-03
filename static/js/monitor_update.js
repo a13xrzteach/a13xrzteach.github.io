@@ -1,6 +1,6 @@
 const sectionType = document.getElementById("type");
 
-const sectionsArray = ["image_cycle", "youtube_video"];
+const sectionsArray = ["image_cycle", "youtube_video", "youtube_playlist"];
 const sections = {};
 sectionsArray.forEach(section => {
 	sections[section] = document.getElementById(section);
@@ -8,7 +8,8 @@ sectionsArray.forEach(section => {
 
 const inputRequirements = {
 	"image_cycle": ["image_interval", "image_files"],
-	"youtube_video": ["youtube_url"],
+	"youtube_video": ["youtube_video_url"],
+	"youtube_playlist": ["youtube_playlist_url"],
 };
 
 sectionType.onchange = event => {
