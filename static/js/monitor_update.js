@@ -58,6 +58,18 @@ const parseCurrent = (section, config) => {
 		linkEl.appendChild(a);
 		sectionEl.appendChild(linkEl);
 	}
+
+	else if (config.type == "youtube_playlist") {
+		const linkEl = document.createElement("li");
+
+		const a = document.createElement("a");
+		const url = `https://youtube.com/playlist?list=${config.resource_id}`;
+		a.href = url;
+		a.innerHTML = url;
+
+		linkEl.appendChild(a);
+		sectionEl.appendChild(linkEl);
+	}
 }
 
 async function initCurrent() {
