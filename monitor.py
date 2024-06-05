@@ -145,7 +145,13 @@ async def monitor_api_update(
     if not section:
         return "Invalid section"
 
-    if type not in ["image_cycle", "youtube_video", "youtube_playlist"]:
+    if type not in [
+        "image_cycle",
+        "youtube_video",
+        "youtube_playlist",
+        "announcements",
+        "info",
+    ]:
         return "Invalid section type"
 
     display = {"type": type}
