@@ -2,13 +2,12 @@
 # See https://github.com/a13xrzteach/a13xrzteach.github.io/tree/main/pi
 
 # Uncomment to enable logging
-# debug=1
+debug=1
 
 log() {
 	[ "$debug" ] || return
 
-	echo "About to execute: $1"
-	echo "PWD: $PWD"
+	echo "$PWD: About to execute: $1"
 	sleep 5
 }
 

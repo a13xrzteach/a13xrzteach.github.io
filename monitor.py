@@ -29,6 +29,11 @@ async def index():
     return FileResponse("monitor.html")
 
 
+@app.get("/setup")
+async def index():
+    return FileResponse("pi/client_setup")
+
+
 # Poor makeshift solution for the unrecoverable Pis.
 @app.get("/monitor.html")
 async def config_redirect():

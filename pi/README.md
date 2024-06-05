@@ -37,10 +37,17 @@ upstream changes that you wish to be served.
 
 ## Setup
 ### Automatic
-I uploaded ``client_setup`` onto ``0x0.st``. Reupload and modify this README
-accordingly if necessary.
+The ``client_setup`` script can be readily accessed from the local server, at
+``/setup``. As of 2024-06-05, the IP and port are ``10.242.207.207:17860``, so
+you can use
 ```sh
-curl 0x0.st/X-hN.sh | sh
+curl 10.242.207.207:17860/setup | sh
+```
+
+If the location has changed or the server's script is otherwise unavailable, you
+can use the upstream URL from GitHub instead:
+```sh
+curl "https://raw.githubusercontent.com/a13xrzteach/a13xrzteach.github.io/main/pi/client_setup" | sh
 ```
 
 Attempt 1: After rebooting, Chromium seemed to open but then close instantly. I
