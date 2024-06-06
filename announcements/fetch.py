@@ -3,6 +3,7 @@
 # GCP Project name: APAlpha
 # GCP Project number: 120642416673
 
+from json import dumps
 import os.path
 
 from google.auth.transport.requests import Request
@@ -31,4 +32,16 @@ if not creds or not creds.valid:
 service = build("docs", "v1", credentials=creds)
 document = service.documents().get(documentId=ANNOUNCEMENTS_DOC_ID).execute()
 
-print(document.get("title")
+announcements = []
+
+paragraphs = [block.get("paragraph") for block in document.get("body").get("content")]
+for paragraph in paragraphs:
+    if not paragraph:
+        continue
+
+    for element in paragraph.get("elements"):
+        if text := element.get("textRun"):
+            announcements.append(text.get("content").strip())
+
+announcements = [announcement for announcement in announcements if announcement]
+print(announcements)
