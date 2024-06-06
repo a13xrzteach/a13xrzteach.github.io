@@ -21,43 +21,51 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 security = HTTPBasic()
 
-SCOPES = ["https://www.googleapis.com/auth/documents.readonly"]
-ANNOUNCEMENTS_DOC_ID = "15bhSjMZYsuS6XkGMgsXq2I5qZchHRfrtQEQ_X6kqYrg"
 
-google_token_file = "announcements/token.json"
-google_creds_file = "announcements/credentials.json"
+def setup_service():
+    SCOPES = ["https://www.googleapis.com/auth/documents.readonly"]
 
-creds = None
-if os.path.exists(google_token_file):
-    creds = Credentials.from_authorized_user_file(google_token_file, SCOPES)
+    google_token_file = "announcements/token.json"
+    google_creds_file = "announcements/credentials.json"
 
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file(google_creds_file, SCOPES)
-        creds = flow.run_local_server(port=0)
+    creds = None
+    if os.path.exists(google_token_file):
+        creds = Credentials.from_authorized_user_file(google_token_file, SCOPES)
 
-    with open(google_token_file, "w") as token:
-        token.write(creds.to_json())
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(google_creds_file, SCOPES)
+            creds = flow.run_local_server(port=0)
 
-service = build("docs", "v1", credentials=creds)
-document = service.documents().get(documentId=ANNOUNCEMENTS_DOC_ID).execute()
+        with open(google_token_file, "w") as token:
+            token.write(creds.to_json())
 
-announcements = []
+    return build("docs", "v1", credentials=creds)
 
-paragraphs = [block.get("paragraph") for block in document.get("body").get("content")]
-for paragraph in paragraphs:
-    if not paragraph:
-        continue
 
-    for element in paragraph.get("elements"):
-        if text := element.get("textRun"):
-            announcements.append(text.get("content").strip())
+def update_announcements():
+    ANNOUNCEMENTS_DOC_ID = "15bhSjMZYsuS6XkGMgsXq2I5qZchHRfrtQEQ_X6kqYrg"
 
-announcements = [announcement for announcement in announcements if announcement]
-print(announcements)
+    document = service.documents().get(documentId=ANNOUNCEMENTS_DOC_ID).execute()
+    announcements = []
 
+    paragraphs = [
+        block.get("paragraph") for block in document.get("body").get("content")
+    ]
+    for paragraph in paragraphs:
+        if not paragraph:
+            continue
+
+        for element in paragraph.get("elements"):
+            if text := element.get("textRun"):
+                announcements.append(text.get("content").strip())
+
+    return [announcement for announcement in announcements if announcement]
+
+
+service = setup_service()
 
 hashed_password = ""
 with open("config/monitor_password.txt") as f:
@@ -71,6 +79,11 @@ def redirect(path):
 @app.get("/")
 async def index():
     return FileResponse("monitor.html")
+
+
+@app.get("/announcements")
+async def announcements():
+    return update_announcements()
 
 
 @app.get("/setup")
