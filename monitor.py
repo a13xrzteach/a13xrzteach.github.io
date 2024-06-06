@@ -3,16 +3,60 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 
+import os.path
+
 from bcrypt import checkpw
 from json import dumps, loads
 from re import search
 from typing import Annotated, List, Optional
 from uuid import uuid4
 
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 security = HTTPBasic()
+
+SCOPES = ["https://www.googleapis.com/auth/documents.readonly"]
+ANNOUNCEMENTS_DOC_ID = "15bhSjMZYsuS6XkGMgsXq2I5qZchHRfrtQEQ_X6kqYrg"
+
+google_token_file = "announcements/token.json"
+google_creds_file = "announcements/credentials.json"
+
+creds = None
+if os.path.exists(google_token_file):
+    creds = Credentials.from_authorized_user_file(google_token_file, SCOPES)
+
+if not creds or not creds.valid:
+    if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+    else:
+        flow = InstalledAppFlow.from_client_secrets_file(google_creds_file, SCOPES)
+        creds = flow.run_local_server(port=0)
+
+    with open(google_token_file, "w") as token:
+        token.write(creds.to_json())
+
+service = build("docs", "v1", credentials=creds)
+document = service.documents().get(documentId=ANNOUNCEMENTS_DOC_ID).execute()
+
+announcements = []
+
+paragraphs = [block.get("paragraph") for block in document.get("body").get("content")]
+for paragraph in paragraphs:
+    if not paragraph:
+        continue
+
+    for element in paragraph.get("elements"):
+        if text := element.get("textRun"):
+            announcements.append(text.get("content").strip())
+
+announcements = [announcement for announcement in announcements if announcement]
+print(announcements)
 
 
 hashed_password = ""
