@@ -109,9 +109,17 @@ class AnnouncementsSection extends Section {
         }
         this.textElement.style.fontSize = (fontSize - 1) + "px";
     }
-    setAnnouncement() {
-        this.textElement.innerHTML = this.announcements[this.announcementsIndex];
+    setAnnouncement(text) {
+        this.textElement.innerHTML = text;
         this.setTextSize();
+    }
+    nextAnnouncement() {
+        this.announcementsIndex = (this.announcementsIndex + 1) % this.announcements.length;
+        let text = `${this.announcementsIndex + 1}/${this.announcements.length}`;
+        text = `${text}: ${this.announcements[this.announcementsIndex]}`;
+        this.setAnnouncement(text);
+        const updateDelay = text.length * 75 + 1000;
+        setTimeout(() => this.nextAnnouncement(), updateDelay);
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -122,13 +130,13 @@ class AnnouncementsSection extends Section {
             this.originalWidth = this.element.clientWidth;
             this.originalHeight = this.element.clientHeight;
             this.element.appendChild(this.textElement);
-            this.setAnnouncement();
+            this.nextAnnouncement();
         });
     }
     constructor(elementId) {
         super(elementId);
         this.announcements = [];
-        this.announcementsIndex = 1;
+        this.announcementsIndex = -1;
         this.textElement = document.createElement("p");
         // Original dimensions of the container
         // If we increase our container past them, our font size has gotten too large

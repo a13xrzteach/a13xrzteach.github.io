@@ -128,8 +128,8 @@ class YouTubeSection extends Section {
 
 class AnnouncementsSection extends Section {
 	announcements: string[] = []
-	announcementsIndex = 1
-	textElement = document.createElement("p");
+	announcementsIndex = -1
+	textElement = document.createElement("p")
 
 	// Original dimensions of the container
 	// If we increase our container past them, our font size has gotten too large
@@ -153,9 +153,20 @@ class AnnouncementsSection extends Section {
         this.textElement.style.fontSize = (fontSize-1) + "px";
 	}
 
-	setAnnouncement() {
-		this.textElement.innerHTML = this.announcements[this.announcementsIndex];
+	setAnnouncement(text: string) {
+		this.textElement.innerHTML = text;
 		this.setTextSize();
+	}
+
+	nextAnnouncement() {
+		this.announcementsIndex = (this.announcementsIndex + 1) % this.announcements.length;
+
+		let text = `${this.announcementsIndex+1}/${this.announcements.length}`;
+		text = `${text}: ${this.announcements[this.announcementsIndex]}`;
+		this.setAnnouncement(text);
+
+		const updateDelay = text.length * 75 + 1000;
+		setTimeout(() => this.nextAnnouncement(), updateDelay);
 	}
 
 	async init() {
@@ -169,7 +180,7 @@ class AnnouncementsSection extends Section {
         this.originalHeight = this.element.clientHeight;
 
 		this.element.appendChild(this.textElement);
-		this.setAnnouncement();
+		this.nextAnnouncement();
 	}
 
 	constructor(elementId: string) {
