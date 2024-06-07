@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse, RedirectResponse
 import os.path
 
 from bcrypt import checkpw
+from datetime import datetime, timedelta
 from json import dumps, loads
 from re import search
 from typing import Annotated, List, Optional
@@ -46,9 +47,21 @@ def setup_service():
 
 
 def update_announcements():
+    now = datetime.now()
+
+    if not ann_state["last_update"]:
+        ann_state["last_update"] = now - timedelta(minutes=10)
+
+    if now - ann_state["last_update"] < timedelta(minutes=5):
+        return ann_state["announcements"]
+
+    print("Querying Google Docs API for latest announcements")
+
     ANNOUNCEMENTS_DOC_ID = "15bhSjMZYsuS6XkGMgsXq2I5qZchHRfrtQEQ_X6kqYrg"
 
-    document = service.documents().get(documentId=ANNOUNCEMENTS_DOC_ID).execute()
+    document = (
+        ann_state["service"].documents().get(documentId=ANNOUNCEMENTS_DOC_ID).execute()
+    )
     announcements = []
 
     paragraphs = [
@@ -62,10 +75,15 @@ def update_announcements():
             if text := element.get("textRun"):
                 announcements.append(text.get("content").strip())
 
-    return [announcement for announcement in announcements if announcement]
+    ann_state["announcements"] = [
+        announcement for announcement in announcements if announcement
+    ]
+    ann_state["last_update"] = now
+
+    return ann_state["announcements"]
 
 
-service = setup_service()
+ann_state = {"service": setup_service(), "last_update": None, "announcements": []}
 
 hashed_password = ""
 with open("config/monitor_password.txt") as f:
