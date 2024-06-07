@@ -36,9 +36,12 @@ class ImageSection extends Section {
     }
     constructor(elementId, config) {
         super(elementId);
+        // imageIndex keeps track of the current index within the this.images array
+        // of which image is displayed. This is entirely managed by the JavaScript
+        // code and not extracted from the JSON.
+        this.imageIndex = 0;
         this.images = config.images;
         this.imageInterval = config.image_interval;
-        this.imageIndex = 0;
         this.init();
     }
 }
@@ -93,6 +96,47 @@ class YouTubeSection extends Section {
         this.init();
     }
 }
+class AnnouncementsSection extends Section {
+    setTextSize() {
+        let fontSize = 1;
+        this.textElement.style.fontSize = fontSize + "px";
+        while (this.element.clientHeight <= this.originalHeight &&
+            this.element.clientWidth <= this.originalWidth &&
+            this.textElement.scrollWidth <= this.originalWidth &&
+            this.textElement.scrollHeight <= this.originalHeight) {
+            fontSize++;
+            this.textElement.style.fontSize = fontSize + "px";
+        }
+        this.textElement.style.fontSize = (fontSize - 1) + "px";
+    }
+    setAnnouncement() {
+        this.textElement.innerHTML = this.announcements[this.announcementsIndex];
+        this.setTextSize();
+    }
+    init() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const raw = yield fetch("/announcements");
+            this.announcements = yield raw.json();
+            this.element.style.display = "grid";
+            this.textElement.className = "announcement";
+            this.originalWidth = this.element.clientWidth;
+            this.originalHeight = this.element.clientHeight;
+            this.element.appendChild(this.textElement);
+            this.setAnnouncement();
+        });
+    }
+    constructor(elementId) {
+        super(elementId);
+        this.announcements = [];
+        this.announcementsIndex = 1;
+        this.textElement = document.createElement("p");
+        // Original dimensions of the container
+        // If we increase our container past them, our font size has gotten too large
+        this.originalWidth = 0;
+        this.originalHeight = 0;
+        this.init();
+    }
+}
 class Monitor {
     getConfig() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -117,6 +161,8 @@ class Monitor {
                     const sectionConfig = config[sectionId];
                     section = new YouTubeSection(sectionId, sectionConfig);
                 }
+                else if (config[sectionId].type == "announcements")
+                    section = new AnnouncementsSection(sectionId);
                 else {
                     alert("Error: Invalid section configuration. See the JS console.");
                     console.error(sectionId);

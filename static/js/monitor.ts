@@ -22,7 +22,7 @@ class ImageSection extends Section {
 	// imageIndex keeps track of the current index within the this.images array
 	// of which image is displayed. This is entirely managed by the JavaScript
 	// code and not extracted from the JSON.
-	imageIndex: number
+	imageIndex = 0
 
 	// Get a valid string to use as a background-image CSS property
 	getCSSImageUrl() {
@@ -53,8 +53,6 @@ class ImageSection extends Section {
 
 		this.images = config.images;
 		this.imageInterval = config.image_interval;
-
-		this.imageIndex = 0;
 
 		this.init();
 	}
@@ -128,6 +126,59 @@ class YouTubeSection extends Section {
 	}
 }
 
+class AnnouncementsSection extends Section {
+	announcements: string[] = []
+	announcementsIndex = 1
+	textElement = document.createElement("p");
+
+	// Original dimensions of the container
+	// If we increase our container past them, our font size has gotten too large
+	originalWidth = 0
+	originalHeight = 0
+
+	setTextSize() {
+        let fontSize = 1;
+        this.textElement.style.fontSize = fontSize + "px";
+
+        while (
+	        this.element.clientHeight <= this.originalHeight &&
+	        this.element.clientWidth <= this.originalWidth &&
+	        this.textElement.scrollWidth <= this.originalWidth &&
+	        this.textElement.scrollHeight <= this.originalHeight
+        ) {
+            fontSize++;
+            this.textElement.style.fontSize = fontSize + "px";
+        }
+
+        this.textElement.style.fontSize = (fontSize-1) + "px";
+	}
+
+	setAnnouncement() {
+		this.textElement.innerHTML = this.announcements[this.announcementsIndex];
+		this.setTextSize();
+	}
+
+	async init() {
+		const raw = await fetch("/announcements");
+		this.announcements = await raw.json();
+
+		this.element.style.display = "grid";
+		this.textElement.className = "announcement";
+
+		this.originalWidth = this.element.clientWidth;
+        this.originalHeight = this.element.clientHeight;
+
+		this.element.appendChild(this.textElement);
+		this.setAnnouncement();
+	}
+
+	constructor(elementId: string) {
+		super(elementId);
+
+		this.init();
+	}
+}
+
 // These interfaces describe the structure of the JSON returned by /config,
 // from a13xrzteach.github.io/config/monitor.json.
 
@@ -177,6 +228,9 @@ class Monitor {
 				const sectionConfig = config[sectionId] as YouTubeConfig;
 				section = new YouTubeSection(sectionId, sectionConfig);
 			}
+
+			else if (config[sectionId].type == "announcements")
+				section = new AnnouncementsSection(sectionId);
 
 			else {
 				alert("Error: Invalid section configuration. See the JS console.");
