@@ -34,11 +34,12 @@ class ImageSection extends Section {
         this.imageIndex = -1;
         this.nextImage();
     }
-    constructor(elementId, images, imageInterval) {
+    constructor(elementId, config) {
         super(elementId);
-        this.images = images;
-        this.imageInterval = imageInterval;
+        this.images = config.images;
+        this.imageInterval = config.image_interval;
         this.imageIndex = 0;
+        this.init();
     }
 }
 class YouTubeSection extends Section {
@@ -89,6 +90,7 @@ class YouTubeSection extends Section {
         super(elementId);
         this.resourceId = config.resource_id;
         this.type = config.type;
+        this.init();
     }
 }
 class Monitor {
@@ -108,7 +110,7 @@ class Monitor {
                 let section;
                 if (config[sectionId].type == "image_cycle") {
                     const sectionConfig = config[sectionId];
-                    section = new ImageSection(sectionId, sectionConfig.images, sectionConfig.image_interval);
+                    section = new ImageSection(sectionId, sectionConfig);
                 }
                 else if (config[sectionId].type == "youtube_video" ||
                     config[sectionId].type == "youtube_playlist") {
@@ -122,7 +124,6 @@ class Monitor {
                     return;
                 }
                 this.sections.push(section);
-                section.init();
             }
         });
     }

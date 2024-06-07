@@ -48,13 +48,15 @@ class ImageSection extends Section {
 		this.nextImage();
 	}
 
-	constructor(elementId: string, images: string[], imageInterval: number) {
+	constructor(elementId: string, config: ImageConfig) {
 		super(elementId);
 
-		this.images = images;
-		this.imageInterval = imageInterval;
+		this.images = config.images;
+		this.imageInterval = config.image_interval;
 
 		this.imageIndex = 0;
+
+		this.init();
 	}
 }
 
@@ -121,6 +123,8 @@ class YouTubeSection extends Section {
 
 		this.resourceId = config.resource_id;
 		this.type = config.type;
+
+		this.init();
 	}
 }
 
@@ -159,16 +163,11 @@ class Monitor {
 		// The only sectionIds we expect are mirrored in monitor.html:
 		// main, footer, sidebar
 		for (const sectionId in config) {
-			let section: YouTubeSection | ImageSection;
+			let section: Section;
 
 			if (config[sectionId].type == "image_cycle") {
 				const sectionConfig = config[sectionId] as ImageConfig;
-
-				section = new ImageSection(
-					sectionId,
-					sectionConfig.images,
-					sectionConfig.image_interval
-				);
+				section = new ImageSection(sectionId, sectionConfig);
 			}
 
 			else if (
@@ -187,7 +186,6 @@ class Monitor {
 			}
 
 			this.sections.push(section);
-			section.init();
 		}
 	}
 
