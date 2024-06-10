@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const RNG = (min, max) => Math.round(Math.random() * (max - min)) + min;
 class Section {
     constructor(elementId) {
         this.elementId = elementId;
@@ -97,6 +98,12 @@ class YouTubeSection extends Section {
     }
 }
 class AnnouncementsSection extends Section {
+    updateAnnouncements() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const raw = yield fetch("/announcements");
+            this.announcements = yield raw.json();
+        });
+    }
     setTextSize() {
         let fontSize = 1;
         this.textElement.style.fontSize = fontSize + "px";
@@ -123,8 +130,10 @@ class AnnouncementsSection extends Section {
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
-            const raw = yield fetch("/announcements");
-            this.announcements = yield raw.json();
+            const offset = 0.25;
+            yield this.updateAnnouncements();
+            this.fetchInterval = this.fetchInterval * RNG(75, 125) / 100;
+            setInterval(() => this.updateAnnouncements(), this.fetchInterval);
             this.element.style.display = "grid";
             this.textElement.className = "announcement";
             this.originalWidth = this.element.clientWidth;
@@ -138,6 +147,8 @@ class AnnouncementsSection extends Section {
         this.announcements = [];
         this.announcementsIndex = -1;
         this.textElement = document.createElement("p");
+        // Look for new announcements around every 10 minutes
+        this.fetchInterval = 10 * 60 * 1000;
         // Original dimensions of the container
         // If we increase our container past them, our font size has gotten too large
         this.originalWidth = 0;

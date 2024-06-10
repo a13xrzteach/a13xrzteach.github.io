@@ -1,3 +1,6 @@
+const RNG = (min: number, max: number) =>
+	Math.round(Math.random() * (max - min)) + min;
+
 class Section {
 	elementId: string
 
@@ -131,10 +134,18 @@ class AnnouncementsSection extends Section {
 	announcementsIndex = -1
 	textElement = document.createElement("p")
 
+	// Look for new announcements around every 10 minutes
+	fetchInterval = 10 * 60 * 1000
+
 	// Original dimensions of the container
 	// If we increase our container past them, our font size has gotten too large
 	originalWidth = 0
 	originalHeight = 0
+
+	async updateAnnouncements() {
+		const raw = await fetch("/announcements");
+		this.announcements = await raw.json();
+	}
 
 	setTextSize() {
         let fontSize = 1;
@@ -170,8 +181,12 @@ class AnnouncementsSection extends Section {
 	}
 
 	async init() {
-		const raw = await fetch("/announcements");
-		this.announcements = await raw.json();
+		const offset = 0.25;
+
+		await this.updateAnnouncements()
+
+		this.fetchInterval = this.fetchInterval * RNG(75, 125) / 100;
+		setInterval(() => this.updateAnnouncements(), this.fetchInterval);
 
 		this.element.style.display = "grid";
 		this.textElement.className = "announcement";
