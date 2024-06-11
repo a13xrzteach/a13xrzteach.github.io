@@ -130,7 +130,6 @@ class AnnouncementsSection extends Section {
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
-            const offset = 0.25;
             yield this.updateAnnouncements();
             this.fetchInterval = this.fetchInterval * RNG(75, 125) / 100;
             setInterval(() => this.updateAnnouncements(), this.fetchInterval);
@@ -153,6 +152,92 @@ class AnnouncementsSection extends Section {
         // If we increase our container past them, our font size has gotten too large
         this.originalWidth = 0;
         this.originalHeight = 0;
+        this.init();
+    }
+}
+class InfoSection extends Section {
+    getAPIUrl() {
+        return `https://api.open-meteo.com/v1/forecast?latitude=${this.latitude}&longitude=${this.longitude}&current=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation&timezone=America%2FNew_York`;
+    }
+    updateData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("infoSection: fetching API data");
+            const raw = yield fetch(this.getAPIUrl());
+            let json = yield raw.json();
+            json = json.current;
+            this.data["temperature"] = json.temperature_2m;
+            this.data["relativeHumidity"] = json.relative_humidity_2m;
+            this.data["precipitationProbability"] = json.precipitation_probability;
+            this.data["precipitation"] = json.precipitation;
+        });
+    }
+    addStat(ul, key, name, unit) {
+        const li = document.createElement("li");
+        ul.appendChild(li);
+        const value = this.data[key];
+        li.innerHTML = `${name}: ${value} ${unit}`;
+    }
+    setTextSize() {
+        let fontSize = 1;
+        this.element.style.fontSize = fontSize + "px";
+        while (this.element.clientHeight <= this.originalHeight &&
+            this.element.clientWidth <= this.originalWidth &&
+            this.element.scrollWidth <= this.originalWidth &&
+            this.element.scrollHeight <= this.originalHeight) {
+            fontSize++;
+            this.element.style.fontSize = fontSize + "px";
+        }
+        this.element.style.fontSize = (fontSize - 1) + "px";
+    }
+    updateDisplay() {
+        Array.from(this.element.children).forEach(el => el.remove());
+        const ul = document.createElement("ul");
+        this.element.appendChild(ul);
+        let li;
+        li = document.createElement("li");
+        ul.appendChild(li);
+        const dateOptions = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        };
+        li.innerHTML = new Date().toLocaleDateString("en-CA", dateOptions);
+        li = document.createElement("li");
+        ul.appendChild(li);
+        li.innerHTML = new Date().toLocaleTimeString("en-US");
+        this.addStat(ul, "temperature", "Temperature", "°C");
+        this.addStat(ul, "relativeHumidity", "Relative Humidity", "%");
+        this.addStat(ul, "precipitationProbability", "Probability of precipitation", "%");
+        this.addStat(ul, "precipitation", "Precipitation", "mm");
+        this.setTextSize();
+    }
+    init() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.element.className = "info";
+            this.originalWidth = this.element.clientWidth;
+            this.originalHeight = this.element.clientHeight;
+            yield this.updateData();
+            this.updateDisplay();
+            setInterval(() => this.updateData(), this.fetchInterval);
+            setInterval(() => this.updateDisplay(), 1000);
+        });
+    }
+    constructor(elementId) {
+        super(elementId);
+        // School location
+        this.latitude = 44.03254035352888;
+        this.longitude = -79.48015624518095;
+        this.data = {
+            temperature: 0,
+            relativeHumidity: 0,
+            precipitationProbability: 0,
+            precipitation: 0,
+        };
+        this.originalWidth = 0;
+        this.originalHeight = 0;
+        // Fetch every 30 minutes to avoid getting rate limited by OpenMeteo
+        this.fetchInterval = 30 * 60 * 1000;
         this.init();
     }
 }
@@ -182,6 +267,8 @@ class Monitor {
                 }
                 else if (config[sectionId].type == "announcements")
                     section = new AnnouncementsSection(sectionId);
+                else if (config[sectionId].type == "info")
+                    section = new InfoSection(sectionId);
                 else {
                     alert("Error: Invalid section configuration. See the JS console.");
                     console.error(sectionId);
