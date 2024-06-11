@@ -9,12 +9,20 @@
 ## Startup
 Disable power saving and automatic screen locks in KDE's settings.
 
-Clone the repository and run the server script:
+Clone the repository:
 ```sh
 mkdir ~/src
 cd ~/src
 git clone https://github.com/a13xrzteach/a13xrzteach.github.io/
-cd a13xrzteach.github.io/pi
+cd a13xrzteach.github.io
+```
+
+Obtain a JSON credentials file from Google Cloud Platform and save it locally as
+``./announcements/credentials.json``.
+
+Run the server script.
+```sh
+cd pi
 ./server
 ```
 
