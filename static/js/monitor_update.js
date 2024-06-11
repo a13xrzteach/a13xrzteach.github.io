@@ -17,8 +17,13 @@ sectionType.onchange = event => {
 		const isSelected = event.target.value == section;
 		sections[section].style.display = isSelected ? "block" : "none";
 
-		inputRequirements[section].forEach(
-			id => document.getElementById(id).required = isSelected
+		inputRequirements[section].forEach(id => {
+				const el = document.getElementById(id);
+				el.required = isSelected;
+
+				if (id == "youtube_video_url" || id == "youtube_playlist_url")
+					el.setAttribute("name", isSelected ? "youtube_url" : "disabled");
+			}
 		);
 	});
 };
