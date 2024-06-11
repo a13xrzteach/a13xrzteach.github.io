@@ -104,21 +104,23 @@ class AnnouncementsSection extends Section {
             this.announcements = yield raw.json();
         });
     }
-    setTextSize() {
-        let fontSize = 1;
+    // Increment font size recursively until we've started exceeding the size of
+    // the container
+    // (Recursion is requirement for school assignment)
+    setTextSize(fontSize) {
         this.textElement.style.fontSize = fontSize + "px";
-        while (this.element.clientHeight <= this.originalHeight &&
-            this.element.clientWidth <= this.originalWidth &&
-            this.textElement.scrollWidth <= this.originalWidth &&
-            this.textElement.scrollHeight <= this.originalHeight) {
-            fontSize++;
-            this.textElement.style.fontSize = fontSize + "px";
+        if (this.element.clientHeight > this.originalHeight ||
+            this.element.clientWidth > this.originalWidth ||
+            this.textElement.scrollWidth > this.originalWidth ||
+            this.textElement.scrollHeight > this.originalHeight) {
+            this.textElement.style.fontSize = (fontSize - 1) + "px";
+            return;
         }
-        this.textElement.style.fontSize = (fontSize - 1) + "px";
+        this.setTextSize(fontSize + 1);
     }
     setAnnouncement(text) {
         this.textElement.innerHTML = text;
-        this.setTextSize();
+        this.setTextSize(1);
     }
     nextAnnouncement() {
         this.announcementsIndex = (this.announcementsIndex + 1) % this.announcements.length;
@@ -177,17 +179,16 @@ class InfoSection extends Section {
         const value = this.data[key];
         li.innerHTML = `${name}: ${value} ${unit}`;
     }
-    setTextSize() {
-        let fontSize = 1;
+    setTextSize(fontSize) {
         this.element.style.fontSize = fontSize + "px";
-        while (this.element.clientHeight <= this.originalHeight &&
-            this.element.clientWidth <= this.originalWidth &&
-            this.element.scrollWidth <= this.originalWidth &&
-            this.element.scrollHeight <= this.originalHeight) {
-            fontSize++;
-            this.element.style.fontSize = fontSize + "px";
+        if (this.element.clientHeight > this.originalHeight ||
+            this.element.clientWidth > this.originalWidth ||
+            this.element.scrollWidth > this.originalWidth ||
+            this.element.scrollHeight > this.originalHeight) {
+            this.element.style.fontSize = (fontSize - 1) + "px";
+            return;
         }
-        this.element.style.fontSize = (fontSize - 1) + "px";
+        this.setTextSize(fontSize + 1);
     }
     updateDisplay() {
         Array.from(this.element.children).forEach(el => el.remove());
@@ -210,7 +211,7 @@ class InfoSection extends Section {
         this.addStat(ul, "relativeHumidity", "Relative Humidity", "%");
         this.addStat(ul, "precipitationProbability", "Probability of precipitation", "%");
         this.addStat(ul, "precipitation", "Precipitation", "mm");
-        this.setTextSize();
+        this.setTextSize(1);
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {

@@ -147,26 +147,28 @@ class AnnouncementsSection extends Section {
 		this.announcements = await raw.json();
 	}
 
-	setTextSize() {
-		let fontSize = 1;
+	// Increment font size recursively until we've started exceeding the size of
+	// the container
+	// (Recursion is requirement for school assignment)
+	setTextSize(fontSize: number) {
 		this.textElement.style.fontSize = fontSize + "px";
 
-		while (
-			this.element.clientHeight <= this.originalHeight &&
-			this.element.clientWidth <= this.originalWidth &&
-			this.textElement.scrollWidth <= this.originalWidth &&
-			this.textElement.scrollHeight <= this.originalHeight
+		if (
+			this.element.clientHeight > this.originalHeight ||
+			this.element.clientWidth > this.originalWidth ||
+			this.textElement.scrollWidth > this.originalWidth ||
+			this.textElement.scrollHeight > this.originalHeight
 		) {
-			fontSize++;
-			this.textElement.style.fontSize = fontSize + "px";
+			this.textElement.style.fontSize = (fontSize-1) + "px";
+			return;
 		}
 
-		this.textElement.style.fontSize = (fontSize-1) + "px";
+		this.setTextSize(fontSize + 1);
 	}
 
 	setAnnouncement(text: string) {
 		this.textElement.innerHTML = text;
-		this.setTextSize();
+		this.setTextSize(1);
 	}
 
 	nextAnnouncement() {
@@ -250,21 +252,20 @@ class InfoSection extends Section {
 		li.innerHTML = `${name}: ${value} ${unit}`;
 	}
 
-	setTextSize() {
-		let fontSize = 1;
+	setTextSize(fontSize: number) {
 		this.element.style.fontSize = fontSize + "px";
 
-		while (
-			this.element.clientHeight <= this.originalHeight &&
-			this.element.clientWidth <= this.originalWidth &&
-			this.element.scrollWidth <= this.originalWidth &&
-			this.element.scrollHeight <= this.originalHeight
+		if (
+			this.element.clientHeight > this.originalHeight ||
+			this.element.clientWidth > this.originalWidth ||
+			this.element.scrollWidth > this.originalWidth ||
+			this.element.scrollHeight > this.originalHeight
 		) {
-			fontSize++;
-			this.element.style.fontSize = fontSize + "px";
+			this.element.style.fontSize = (fontSize-1) + "px";
+			return;
 		}
 
-		this.element.style.fontSize = (fontSize-1) + "px";
+		this.setTextSize(fontSize + 1);
 	}
 
 	updateDisplay() {
@@ -295,7 +296,7 @@ class InfoSection extends Section {
 		this.addStat(ul, "precipitationProbability", "Probability of precipitation", "%");
 		this.addStat(ul, "precipitation", "Precipitation", "mm");
 
-		this.setTextSize();
+		this.setTextSize(1);
 	}
 
 	async init() {
