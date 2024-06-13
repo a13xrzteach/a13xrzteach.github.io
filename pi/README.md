@@ -1,4 +1,19 @@
 # Server
+## Starting the 203 Arch server
+This is assumed that everything there is already installed, which is the case of
+2024-06-13.
+
+1. Turn on the power. Don't worry about the boot sequence menu and just let it
+run until you see the KDE login screen.
+2. Log in as the ``oboro`` user. Mr. Rozenberg has access to the password.
+3. Open a terminal (Konsole) window.
+4. Type the following command: ``cd /home/oboro/src/a13xrzteach.github.io/pi; ./server``
+5. Leave the terminal window running.
+
+No more manual intervention on the server should be required. The rest of the
+Server README is only relevant when first deploying, which has been done
+already.
+
 ## Dependencies
 - Standard Linux installation
 - ``git``
