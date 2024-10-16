@@ -39,6 +39,8 @@ flowchart TD
     E[Google Forms]
     F[Google Sheets]
     G[Google Docs]
+    H[YouTube API]
+    I[Weather API]
     
     E --> F
     F --> G
@@ -47,6 +49,10 @@ flowchart TD
     B --> A
     A --> D
     D --> A
+    D --> H
+    H --> D
+    D --> I
+    I --> D
 ```
 
 ## Components
@@ -85,6 +91,12 @@ display content.
 - `pi/client`: Starts the Chromium browser in kiosk mode to display content.
 - `pi/client_manager`: Manages client script execution and updates.
 - `pi/startup`: Initializes the client environment on boot.
+
+### External APIs
+- **YouTube API**: Used by clients to display YouTube videos and playlists.
+
+- **Weather API (Open-Meteo)**: Used by clients to fetch and display current
+weather information.
 
 ### Content Management GUI
 
@@ -133,15 +145,14 @@ diagram:
 
 ```mermaid
 sequenceDiagram
-    participant Staff
-    participant GoogleForm as Google Form
     participant GoogleSheet as Google Sheet
     participant GoogleDoc as Google Doc
     participant Server
     participant Client
+    participant YouTubeAPI as YouTube API
+    participant WeatherAPI as Weather API
 
-    Staff->>GoogleForm: Submit Announcement
-    GoogleForm->>GoogleSheet: Store Response
+
     GoogleSheet->>GoogleDoc: Update via Apps Script
     loop Every 5 minutes
         Server->>GoogleDoc: Fetch Announcements
@@ -150,6 +161,14 @@ sequenceDiagram
     loop Client Refresh Interval
         Client->>Server: Fetch Configurations
         Server->>Client: Send Configurations and Content
+        par If YouTube Content
+            Client->>YouTubeAPI: Request Video/Playlist
+            YouTubeAPI->>Client: Stream Content
+        end
+        par If Weather Info
+            Client->>WeatherAPI: Request Weather Data
+            WeatherAPI->>Client: Send Weather Data
+        end
         Client->>Client: Display Content
     end
 ```
