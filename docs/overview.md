@@ -41,7 +41,8 @@ flowchart TD
     G[Google Docs]
     
     E --> F
-    F --> C
+    F --> G
+    G --> C
     C --> A
     B --> A
     A --> D
@@ -177,3 +178,14 @@ announcements.
    - Clients display the content based on the received configurations.
    - Content types include image cycles, YouTube videos/playlists,
 announcements, and info displays.
+
+
+### Limitations
+- **No SSH Access:**
+  - Due to network and physical constraints, remote access to Raspberry Pis is
+not available.
+  - Updates and maintenance are performed via the auto-update mechanism.
+
+- **Security Considerations:**
+  - The system operates within the school's internal network.
+  - Authentication for the content management GUI uses HTTP Basic Auth over HTTP.
