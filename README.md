@@ -61,16 +61,16 @@ For detailed information on setup, configuration, and operation, refer to the
 following documents:
 
 - [Setup Guide](docs/setup.md): Instructions for configuring new Raspberry Pis,
-launching the server and client locally, compiling TypeScript files, etc.
+launching the server and client locally, and understanding the client scripts.
 
 - [System Overview](docs/overview.md): Detailed explanation of data flow and how
 clients interact with the server.
 
-- [Client Documentation](docs/client.md): Information about the client scripts
-running on the Raspberry Pis and frontend functionality.
-
 - [Server Documentation](docs/server.md): Details about the FastAPI backend,
 including endpoints and configuration management.
+
+- [Frontend Documentation](docs/frontend.md): Information about the frontend
+functionality and how the monitors display content.
 
 ## Project Structure
 
