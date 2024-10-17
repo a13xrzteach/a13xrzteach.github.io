@@ -41,7 +41,7 @@ flowchart TD
     G[Google Docs]
     H[YouTube API]
     I[Weather API]
-    
+
     E --> F
     F --> G
     G --> C
