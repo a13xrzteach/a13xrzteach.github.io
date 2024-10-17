@@ -17,8 +17,6 @@ both the server and clients.
   - [Starting the Server](#starting-the-server)
 - [Client Setup](#client-setup)
   - [Running the Client on a Raspberry Pi](#running-the-client-on-a-raspberry-pi)
-    - [Automatic Setup](#automatic-setup)
-    - [Manual Setup](#manual-setup)
   - [Running the Client Locally for Development](#running-the-client-locally-for-development)
 - [Auto-Update Mechanism](#auto-update-mechanism)
 - [Maintenance](#maintenance)
@@ -26,7 +24,7 @@ both the server and clients.
   - [Updating the Clients](#updating-the-clients)
   - [Troubleshooting](#troubleshooting)
 - [Security Considerations](#security-considerations)
-- [Conclusion](#conclusion)
+- [Contact](#contact)
 
 ## Prerequisites
 
