@@ -6,8 +6,8 @@ throughout the school using Raspberry Pis. It provides an easy way to configure
 and manage the content displayed, ensuring that important announcements and
 updates are readily accessible to students and staff.
 
-(The repository is named "a13xrzteach.github.io" for historic reasons; the live
-GitHub pages site, reading `./index.html`, is mostly unused.)
+(The repository is named "a13xrzteach.github.io" for historical reasons; the
+live GitHub Pages site, reading `./index.html`, is mostly unused.)
 
 ## Table of Contents
 
