@@ -19,5 +19,4 @@ killall chromium
 chromium \
 	--guest \
 	--kiosk \
-	--force-device-scale-factor=0.9 \
 	"$endpoint" &
