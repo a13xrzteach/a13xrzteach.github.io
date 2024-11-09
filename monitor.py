@@ -37,6 +37,13 @@ def setup_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            if not os.path.exists(google_creds_file):
+                print(
+                    "You must obtain a credentials.json file from Google Cloud Platform to use the Google Docs API to fetch announcements. "
+                    "None was found in the announcements/ directory."
+                )
+                return None
+
             flow = InstalledAppFlow.from_client_secrets_file(google_creds_file, SCOPES)
             creds = flow.run_local_server(port=0)
 
@@ -47,6 +54,10 @@ def setup_service():
 
 
 def update_announcements():
+    # Announcements service not available
+    if not ann_state["service"]:
+        return ["Failed to connect to Google Docs API"]
+
     now = datetime.now()
 
     if not ann_state["last_update"]:
@@ -62,11 +73,13 @@ def update_announcements():
     document = (
         ann_state["service"].documents().get(documentId=ANNOUNCEMENTS_DOC_ID).execute()
     )
+
     announcements = []
 
     paragraphs = [
         block.get("paragraph") for block in document.get("body").get("content")
     ]
+
     for paragraph in paragraphs:
         if not paragraph:
             continue
@@ -75,14 +88,17 @@ def update_announcements():
             if text := element.get("textRun"):
                 announcements.append(text.get("content").strip())
 
+    # Remove Nones
     ann_state["announcements"] = [
         announcement for announcement in announcements if announcement
     ]
+
     ann_state["last_update"] = now
 
     return ann_state["announcements"]
 
 
+# Initialize announcements state
 ann_state = {"service": setup_service(), "last_update": None, "announcements": []}
 
 hashed_password = ""
