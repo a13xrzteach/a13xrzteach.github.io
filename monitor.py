@@ -224,8 +224,8 @@ async def monitor_api_update(
     authorized: Annotated[bool, Depends(authorization)],
     section: str = Form(...),
     type: str = Form(...),
-    image_files: List[UploadFile] = File(...),
-    image_interval: float = Form(...),
+    image_files: List[UploadFile] = File(None),
+    image_interval: Optional[float] = Form(None),
     youtube_url: Optional[str] = Form(None),
 ):
     section = {
