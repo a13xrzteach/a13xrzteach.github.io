@@ -92,22 +92,14 @@ Install the following packages on the server:
    cd a13xrzteach.github.io
    ```
 
-2. **Set Up Virtual Environment:**
-   ```sh
-   cd pi
-   virtualenv env
-   source env/bin/activate
-   pip install -r ../requirements.txt
-   ```
-
-3. **Configure Google API Credentials:**
+2. **Configure Google API Credentials:**
    - Obtain the `credentials.json` file from Google Cloud Platform.
    - Place the file in the `announcements` directory:
      ```sh
      cp /path/to/credentials.json ./announcements/credentials.json
      ```
 
-4. **Disable Power Saving and Screen Locks (if applicable):**
+3. **Disable Power Saving and Screen Locks (if applicable):**
    - Adjust settings in the desktop environment (e.g., KDE) to prevent the
 server from sleeping or locking the screen.
 
