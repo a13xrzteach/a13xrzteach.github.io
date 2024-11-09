@@ -121,7 +121,7 @@ async def announcements():
 
 
 @app.get("/setup")
-async def index():
+async def setup_endpoint():
     return FileResponse("pi/client_setup")
 
 
@@ -155,22 +155,25 @@ async def monitor_update(authorized: Annotated[bool, Depends(authorization)]):
 
 
 # Should parse the following formats, at least
-# https://youtube.com/watch?v=o-YBDTqX_ZU
-# https://youtube.com/watch?v=o-YBDTqX_ZU&foo=bar&bar=baz
-# https://www.youtube.com/watch?v=o-YBDTqX_ZU?foo=bar&bar=baz
-# https://youtu.be/o-YBDTqX_ZU?si=pLeuVDoJjradBVeA
+# - https://youtube.com/watch?v=o-YBDTqX_ZU
+# - https://youtube.com/watch?v=o-YBDTqX_ZU&foo=bar&bar=baz
+# - https://www.youtube.com/watch?v=o-YBDTqX_ZU?foo=bar&bar=baz
+# - https://youtu.be/o-YBDTqX_ZU?si=pLeuVDoJjradBVeA
 # Returns the id of the video
 def parse_yt_video(youtube_url):
     r = search(
-        "^https?://(www\\.)?youtube\\.com/watch\\?v=[a-zA-Z0-9_-]{11}", youtube_url
+        r"^https?://(?:www\.)?youtube\.com/watch\?v=([a-zA-Z0-9_-]{11})", youtube_url
     )
-    if not r:
-        r = search("^https?://(www\\.)?youtu\\.be/[a-zA-Z0-9_-]{11}", youtube_url)
 
-    if not r:
-        return None
+    # .group(0) is the entire regex match, but we want 1: our ID group
+    if r:
+        return r.group(1)
 
-    return r.group(0)[-11:]
+    r = search(r"^https?://(?:www\.)?youtu\.be/([a-zA-Z0-9_-]{11})", youtube_url)
+    if r:
+        return r.group(1)
+
+    return None
 
 
 # Parse the following format
@@ -178,14 +181,14 @@ def parse_yt_video(youtube_url):
 # Returns the id of the playlist
 def parse_yt_playlist(youtube_url):
     r = search(
-        "^https?://(www\\.)?youtube\\.com/playlist\\?list=[a-zA-Z0-9_-]{34}",
+        r"^https?://(?:www\.)?youtube\.com/playlist\?list=([a-zA-Z0-9_-]{34})",
         youtube_url,
     )
 
-    if not r:
-        return None
+    if r:
+        return r.group(1)
 
-    return r.group(0)[-34:]
+    return None
 
 
 def get_monitor_config():
@@ -231,10 +234,8 @@ async def monitor_api_update(
         "c": "sidebar",
     }.get(section)
 
-    monitor_config = get_monitor_config()
-
     if not section:
-        return "Invalid section"
+        raise HTTPException(status_code=400, detail="Invalid section")
 
     if type not in [
         "image_cycle",
@@ -243,20 +244,34 @@ async def monitor_api_update(
         "announcements",
         "info",
     ]:
-        return "Invalid section type"
+        raise HTTPException(status_code=400, detail="Invalid section type")
 
+    monitor_config = get_monitor_config()
     display = {"type": type}
 
     if type == "image_cycle":
-        if image_interval < 0.5:
-            return "Image interval should be >= 0.5 seconds"
+        if image_interval is None or image_interval < 0.5:
+            raise HTTPException(
+                status_code=400, detail="Image interval should be >= 0.5 seconds"
+            )
+
+        if not image_files:
+            raise HTTPException(
+                status_code=400,
+                detail="Image cycle type requires at least one image file",
+            )
 
         for file in image_files:
             if not file.filename:
-                return "image cycle type requires at least one image file"
+                raise HTTPException(
+                    status_code=400,
+                    detail="Image cycle type requires valid image files",
+                )
 
             if not file.content_type.startswith("image/"):
-                return "image cycle type only accepts image files"
+                raise HTTPException(
+                    status_code=400, detail="Image cycle type only accepts image files"
+                )
 
         filenames = await save_images(image_files)
         display.update(
@@ -268,23 +283,29 @@ async def monitor_api_update(
 
     elif type == "youtube_video":
         if not youtube_url:
-            return "No video URL provided"
+            raise HTTPException(status_code=400, detail="No video URL provided")
 
-        id = parse_yt_video(youtube_url)
-        if not id:
-            return "Invalid YouTube URL format provided"
+        video_id = parse_yt_video(youtube_url)
+        if not video_id:
+            raise HTTPException(
+                status_code=400, detail="Invalid YouTube URL format provided"
+            )
 
-        display.update({"resource_id": id})
+        display.update({"resource_id": video_id})
 
     elif type == "youtube_playlist":
         if not youtube_url:
-            return "No playlist URL provided"
+            raise HTTPException(status_code=400, detail="No playlist URL provided")
 
-        id = parse_yt_playlist(youtube_url)
-        if not id:
-            return "Invalid playlist URL format provided"
+        playlist_id = parse_yt_playlist(youtube_url)
+        if not playlist_id:
+            raise HTTPException(
+                status_code=400, detail="Invalid playlist URL format provided"
+            )
 
-        display.update({"resource_id": id})
+        display.update({"resource_id": playlist_id})
+
+    # (For 'announcements' and 'info' types, no additional data is needed)
 
     monitor_config[section] = display
     set_monitor_config(monitor_config, authorized)
