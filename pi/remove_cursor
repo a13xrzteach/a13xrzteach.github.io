@@ -30,5 +30,5 @@ sleep 10
 
 # Use --absolute for absolute
 # But this should work too
-#sudo ./ydotool mousemove 1920 1080
-sudo ./ydotool mouseshow 0
+sudo ./ydotool mousemove --absolute 1920 1080
+
