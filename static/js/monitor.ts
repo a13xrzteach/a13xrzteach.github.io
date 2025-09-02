@@ -90,34 +90,33 @@ class YouTubeSection extends Section {
 			cc_load_policy: 1,
 		}
 
-		if (this.type == "youtube_video") {
-			// playlist has to be set to the ID as well for looping to work
-			playerVars.playlist = this.resourceId;
-		}
-		else if (this.type == "youtube_playlist") {
-			playerVars.list = this.resourceId;
-			playerVars.listType = "playlist";
-		}
+                const playerOptions: YT.PlayerOptions = {
+                        playerVars: playerVars,
 
-		else console.error("Invalid YouTubeSection type", this.type);
+                        events: {
+                                onReady: () => {},
 
-		const playerOptions = {
-			videoId: this.resourceId,
-			playerVars: playerVars,
+                                // https://developers.google.com/youtube/iframe_api_reference#onError
+                                onError: (event: YT.PlayerEvent) => {
+                                        console.log("Received error from YouTube API");
+                                        console.log(event);
+                                }
+                        },
+                }
 
-			events: {
-				onReady: () => {},
+                if (this.type == "youtube_video") {
+                        playerOptions.videoId = this.resourceId;
+                        playerVars.playlist = this.resourceId;
+                }
+                else if (this.type == "youtube_playlist") {
+                        playerVars.list = this.resourceId;
+                        playerVars.listType = "playlist";
+                }
 
-				// https://developers.google.com/youtube/iframe_api_reference#onError
-				onError: (event: YT.PlayerEvent) => {
-					console.log("Received error from YouTube API");
-					console.log(event);
-				}
-			},
-		}
+                else console.error("Invalid YouTubeSection type", this.type);
 
-		const player = new YT.Player(ytContainerId, playerOptions);
-	}
+                const player = new YT.Player(ytContainerId, playerOptions);
+        }
 
 	constructor(elementId: string, config: YouTubeConfig) {
 		super(elementId);

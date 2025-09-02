@@ -4,7 +4,7 @@ declare namespace YT {
 	}
 
 	interface PlayerOptions {
-		videoId: string;
+                videoId?: string;
 
 		playerVars: {
 			start: number;
